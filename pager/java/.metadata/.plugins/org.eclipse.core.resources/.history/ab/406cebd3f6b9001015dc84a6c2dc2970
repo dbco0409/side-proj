@@ -1,0 +1,169 @@
+package com.pager.service;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pager.model.BidApiItem;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+@Service
+public class BidOpenApiService {
+
+    private static final String SERVICE_URL =
+        "https://apis.data.go.kr/1230000/ao/PrvtBidNtceService/getPrvtBidPblancListInfoServcPPSSrch";
+    private static final String SERVICE_URL2 = "https://apis.data.go.kr/1230000/ao/PrvtBidNtceService/getPrvtBidPblancListInfoServc";
+    private static final String SERVICE_KEY = "b6QUXFo4NJdzDjrwkgiDQAoVJIhjHLU9NplomktTDExQr8f5t153FdoHN%2FhWgBpgNcbIWhNsL%2FfJSnFqNZGdvg%3D%3D"; // 교체 필요
+
+    private static final DateTimeFormatter DT_FMT = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
+
+    /**
+     * “웹”과 “홈페이지” 두 키워드로 각각 조회한 후 합쳐서 최신순으로 반환
+     */
+    public List<BidApiItem> fetchDefaultWebAndHomepage(int pageNo, int numOfRows) {
+        List<BidApiItem> result = new ArrayList<>();
+        result.addAll(fetchByKeyword("웹", pageNo, numOfRows));
+        result.addAll(fetchByKeyword("홈페이지", pageNo, numOfRows));
+        result.addAll(fetchByKeyword("앱", pageNo, numOfRows));
+        result.addAll(fetchByKeyword("web", pageNo, numOfRows));
+        result.addAll(fetchByKeyword("ai", pageNo, numOfRows));
+
+        // ✅ 중복 제거 (입찰공고번호 기준)
+        Map<String, BidApiItem> deduped = new LinkedHashMap<>();
+        for (BidApiItem item : result) {
+            deduped.put(item.getBidNtceNo(), item);
+        }
+
+        // ✅ 게시일(nticeDt) 기준 내림차순 정렬
+        List<BidApiItem> sorted = new ArrayList<>(deduped.values());
+        sorted.sort((a, b) -> {
+            String d1 = a.getOpengDt() == null ? "" : a.getOpengDt();
+            String d2 = b.getOpengDt() == null ? "" : b.getOpengDt();
+            return d2.compareTo(d1); // 최신순
+        });
+
+        return sorted;
+    }
+
+    /**
+     * 개별 키워드로 OpenAPI 요청
+     */
+    private List<BidApiItem> fetchByKeyword(String keyword, int pageNo, int numOfRows) {
+        LocalDateTime end = LocalDateTime.now();
+        LocalDateTime begin = end.minusMonths(6);
+
+        String inqryBgnDt = begin.format(DT_FMT);
+        String inqryEndDt = end.format(DT_FMT);
+        String encKeyword = URLEncoder.encode(keyword, StandardCharsets.UTF_8);
+
+        // 산업명(indstrytyNm) 제거 ✅
+        String url = String.format(
+            "%s?serviceKey=%s&type=json&pageNo=%d&numOfRows=%d&inqryDiv=1&inqryBgnDt=%s&inqryEndDt=%s&bidNtceNm=%s",
+            SERVICE_URL, SERVICE_KEY, pageNo, numOfRows, inqryBgnDt, inqryEndDt, encKeyword
+        );
+
+        List<BidApiItem> list = new ArrayList<>();
+
+        try {
+            RestTemplate rt = new RestTemplate();
+            ResponseEntity<String> res = rt.getForEntity(URI.create(url), String.class);
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(res.getBody());
+            JsonNode items = root.path("response").path("body").path("items");
+
+            if (items.isArray()) {
+                for (JsonNode n : items) list.add(mapItem(n));
+            } else if (!items.isMissingNode() && !items.isNull()) {
+                list.add(mapItem(items));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    
+    public Map<String, Object> fetchDetailByOrderPlanUntyNo(String bidNtceNo) {
+        try {
+        	LocalDateTime end = LocalDateTime.now();
+            LocalDateTime begin = end.minusMonths(6);
+
+            String inqryBgnDt = begin.format(DT_FMT);
+            String inqryEndDt = end.format(DT_FMT);
+            
+            String url = String.format(
+                "%s?serviceKey=%s&type=json&pageNo=1&numOfRows=1&inqryDiv=1&inqryBgnDt=%s&inqryEndDt=%s&bidNtceNo=%s",
+                SERVICE_URL2,
+                SERVICE_KEY,
+                inqryBgnDt, inqryEndDt, bidNtceNo
+            );
+
+            RestTemplate rt = new RestTemplate();
+            ResponseEntity<String> res = rt.getForEntity(URI.create(url), String.class);
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(res.getBody());
+            JsonNode items = root.path("response").path("body").path("items");
+
+            if (items.isArray() && items.size() > 0) {
+                return toMap(items.get(0)); // 첫 번째(단일) 아이템 반환
+            } else if (!items.isMissingNode() && !items.isNull()) {
+                return toMap(items); // 단일 객체 그대로 반환
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private BidApiItem mapItem(JsonNode n) {
+        BidApiItem it = new BidApiItem();
+        it.setBidNtceNo(n.path("bidNtceNo").asText("")); // 입찰공고번호
+        it.setNtceNm(n.path("ntceNm").asText(""));                  // 요청명(입찰공고명)
+        it.setOpengPlce(n.path("opengPlce").asText(""));        // 기관명
+        it.setOpengDt(n.path("opengDt").asText(""));                  // 공고게시일시
+        it.setCntrctMthdNm(n.path("cntrctMthdNm").asText("-"));         // 진행상태
+        it.setSucsfbidMthdNm(n.path("sucsfbidMthdNm").asText(""));              // 마감일시
+        return it;
+    }
+    
+    private Map<String, Object> toMap(JsonNode node) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("bidNtceNo", node.path("bidNtceNo").asText(""));
+        map.put("cntrctMthdNm", node.path("cntrctMthdNm").asText(""));
+        map.put("bidNtceNm", node.path("bidNtceNm").asText(""));
+        map.put("rgstTyNm", node.path("rgstTyNm").asText(""));
+        map.put("ntceKindNm", node.path("ntceKindNm").asText(""));
+        map.put("bidNtceDt", node.path("bidNtceDt").asText(""));
+        map.put("ntceDivNm", node.path("ntceDivNm").asText(""));
+        map.put("ntceNm", node.path("ntceNm").asText(""));
+        map.put("bidMethdNm", node.path("bidMethdNm").asText(""));
+        map.put("bidBeginDt", node.path("bidBeginDt").asText(""));
+        map.put("bidClseDt", node.path("bidClseDt").asText(""));
+        map.put("opengDt", node.path("opengDt").asText(""));
+        map.put("sucsfbidMthdNm", node.path("sucsfbidMthdNm").asText(""));
+        map.put("rgstDt", node.path("rgstDt").asText(""));
+        map.put("ntceInsttNm", node.path("ntceInsttNm").asText(""));
+        map.put("ofclNm", node.path("ofclNm").asText(""));
+        map.put("ofclTelNo", node.path("ofclTelNo").asText(""));
+        map.put("ofclEmail", node.path("ofclEmail").asText(""));
+        map.put("ntceSpecDocUrl1", node.path("ntceSpecDocUrl1").asText(""));
+        map.put("ntceSpecDocNm1", node.path("ntceSpecDocNm1").asText(""));
+        map.put("ntceSpecDocUrl2", node.path("ntceSpecDocUrl2").asText(""));
+        map.put("ntceSpecDocNm2", node.path("ntceSpecDocNm2").asText(""));
+        map.put("ntceSpecDocUrl3", node.path("ntceSpecDocUrl3").asText(""));
+        map.put("ntceSpecDocNm3", node.path("ntceSpecDocNm3").asText(""));
+        map.put("ntceSpecDocUrl4", node.path("ntceSpecDocUrl4").asText(""));
+        map.put("ntceSpecDocNm4", node.path("ntceSpecDocNm4").asText(""));
+        return map;
+    }
+}

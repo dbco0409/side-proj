@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>
+    뉴스/인사이드 관리
+  </title>
+  <!-- Favicon -->
+  <link href="/assets/img/brand/favicon.png" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link href="/assets/js/plugins/nucleo/css/nucleo.css" rel="stylesheet" />
+  <link href="/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link href="/assets/css/argon-dashboard.css?v=1.1.2" rel="stylesheet" />
+</head>
+
+<body class="">
+  <header th:replace="~{/fragments/admin.head :: commonHead('메인 페이지')}"></header>
+  <div class="main-content">
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+      <div class="container-fluid">
+        <!-- Brand -->
+        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="/admin/news/list">뉴스/인사이드 관리</a>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8"></div>
+    <div class="container-fluid mt--7">
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <h3 class="mb-0">뉴스/인사이드 리스트</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                <colgroup>
+                  <col width="50"/>
+                  <col/>
+                  <col width="100"/>
+                </colgroup>
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">날짜</th>
+                  </tr>
+                </thead>
+                <tbody>
+                
+                  <tr th:each="item : ${news}" th:onclick="|location.href='/admin/news/view/' + ${item.id}|">
+                    <th scope="row">3</th>
+                    <td>
+                      <a th:onclick="|location.href='/admin/news/view/' + ${item.id}|"class="badge badge-dot mr-4" th:text="${item.title}">
+                        탄수화물 위주 식사
+                      </a>
+                    </td>
+                    <td th:text="${#temporals.format(item.regdate, 'yy.MM.dd')}">
+                      2025-08-09
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer th:replace="~{fragments/admin.foot :: commonFoot('푸터 페이지')}"></footer>
+</body>
+
+</html>

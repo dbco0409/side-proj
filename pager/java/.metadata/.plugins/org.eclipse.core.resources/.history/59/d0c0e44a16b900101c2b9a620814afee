@@ -1,0 +1,14 @@
+package com.pager.Controller;
+
+import com.pager.mapper.QuoteMapper;
+import com.pager.model.Quote;
+import com.pager.model.User;
+
+import java.util.*;
+
+@RestController
+@RequestMapping("/list01")
+public class ApiController {
+
+    
+}

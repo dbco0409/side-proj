@@ -1,0 +1,5 @@
+package com.pager.model;
+
+public class Quote {
+
+}

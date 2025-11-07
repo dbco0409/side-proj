@@ -1,0 +1,36 @@
+package com.pager.Controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.pager.model.Bid;
+import com.pager.service.BidService;
+
+import lombok.RequiredArgsConstructor;
+
+@Controller  // ✅ RestController → Controller 로 변경
+@RequestMapping("/bid")
+@RequiredArgsConstructor
+public class BidController {
+	private final BidService bidService;
+	
+	@PostMapping("/add")
+    public String addBid(@RequestBody Bid bid) {
+		bidService.insertBid(bid);
+        return "redirect:/quote/list"; // 등록 후 리스트 페이지로 이동
+    }
+
+    // ✅ 단일 견적 조회
+    @GetMapping("/{id}")
+    public String getBid(@PathVariable Long id, Model model) {
+        Bid bid = bidService.getBid(id);
+        model.addAttribute("bid", bid);
+        return "bid_view"; // quote_view.html 로 이동
+    }
+    
+}

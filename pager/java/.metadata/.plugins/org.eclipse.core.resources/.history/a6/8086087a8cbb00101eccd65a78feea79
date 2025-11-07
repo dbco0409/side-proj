@@ -1,0 +1,105 @@
+package com.pager.Controller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.pager.model.Shop;
+import com.pager.service.ShopService;
+
+import lombok.RequiredArgsConstructor;
+
+@Controller
+@RequestMapping("/shop")
+@RequiredArgsConstructor
+public class ShopController {
+
+    private final ShopService shopService;
+
+    // ✅ 1. 상품 등록 페이지 이동
+    @GetMapping("/add")
+    public String addForm(Model model) {
+        model.addAttribute("shop", new Shop());
+        return "shop_add"; // → templates/shop_add.html
+    }
+
+    // ✅ 2. 상품 등록 처리
+    @PostMapping("/add")
+    public String addShop(
+            @ModelAttribute Shop shop,
+            @RequestParam(value = "thumbFile", required = false) MultipartFile thumbFile,
+            @RequestParam(value = "editorFiles", required = false) List<MultipartFile> editorFiles) {
+
+        shopService.insertShop(shop, thumbFile, editorFiles);
+        return "redirect:/shop/list";
+    }
+
+    // ✅ 3. 상품 수정 페이지 이동
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        Shop shop = shopService.getShop(id);
+        model.addAttribute("shop", shop);
+        return "shop_edit"; // → templates/shop_edit.html
+    }
+
+    // ✅ 4. 상품 수정 처리
+    @PostMapping("/edit/{id}")
+    public String editShop(
+            @PathVariable Long id,
+            @ModelAttribute Shop shop,
+            @RequestParam(value = "thumbFile", required = false) MultipartFile thumbFile,
+            @RequestParam(value = "editorFiles", required = false) List<MultipartFile> editorFiles) {
+
+        shop.setId(id);
+        shopService.updateShop(shop, thumbFile, editorFiles);
+        return "redirect:/shop/view/" + id;
+    }
+
+    // ✅ 5. 상품 상세보기
+    @GetMapping("/view/{id}")
+    public String viewShop(@PathVariable Long id, Model model) {
+        Shop shop = shopService.getShop(id);
+        model.addAttribute("shop", shop);
+        return "shop_view"; // → templates/shop_view.html
+    }
+    
+ // ✅ 6. 메인 상품 목록 보기
+    @GetMapping("/main-list")
+    public String listMainShop(Model model) {
+        List<Shop> shops = shopService.getShopHotList();
+        model.addAttribute("shops", shops);
+        return "shop_list"; // → templates/shop_list.html
+    }
+    
+    // ✅ 6. 상품 목록 보기
+    @GetMapping("/list")
+    public String listShop(Model model) {
+        List<Shop> shops = shopService.getShopList();
+        model.addAttribute("shops", shops);
+        return "shop_list"; // → templates/shop_list.html
+    }
+    
+    @PostMapping("/list")
+    public String filterShopList(
+            @RequestParam(required = false) String category1,
+            @RequestParam(required = false) String category2,
+            @RequestParam(defaultValue = "0") int minPrice,
+            @RequestParam(defaultValue = "500000") int maxPrice,
+            Model model) {
+
+        List<Shop> filtered = shopService.filterShops(category1, category2, minPrice, maxPrice);
+        model.addAttribute("shops", filtered);
+        return "shop_list :: #sub_body"; // Ajax로 부분 갱신
+    }
+
+
+    // ✅ 7. 상품 삭제
+    @GetMapping("/delete/{id}")
+    public String deleteShop(@PathVariable Long id) {
+        shopService.deleteShop(id);
+        return "redirect:/shop/list";
+    }
+}

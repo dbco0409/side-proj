@@ -1,0 +1,59 @@
+package com.pager.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.*;
+
+import com.pager.model.Shop;
+import com.pager.service.Param;
+import com.pager.service.Select;
+
+@Mapper
+public interface ShopMapper {
+
+    // ✅ 1. 상품 등록
+    @Insert("""
+        INSERT INTO shop 
+            (title, price, delivery_price, total_price, category1, category2, content, thumb, created_at, updated_at)
+        VALUES 
+            (#{title}, #{price}, #{delivery_price}, #{total_price}, #{category1}, #{category2}, #{content}, #{thumb}, NOW(), NOW())
+    """)
+    void insertShop(Shop shop);
+
+    // ✅ 2. 상품 수정
+    @Update("""
+        UPDATE shop
+        SET title = #{title},
+            price = #{price},
+            delivery_price = #{delivery_price},
+            total_price = #{total_price},
+            category1 = #{category1},
+            category2 = #{category2},
+            content = #{content},
+            thumb = #{thumb},
+            updated_at = NOW()
+        WHERE id = #{id}
+    """)
+    void updateShop(Shop shop);
+    
+    @Select("""
+    	    SELECT * FROM shop
+    	    WHERE (#{category1} IS NULL OR category1 = #{category1})
+    	      AND (#{category2} IS NULL OR category2 = #{category2})
+    	      AND price BETWEEN #{minPrice} AND #{maxPrice}
+    	    ORDER BY id DESC
+    	""")
+    	List<Shop> filterShops(String category1,String category2,int minPrice,int maxPrice);
+
+    // ✅ 3. 상품 삭제
+    @Delete("DELETE FROM shop WHERE id = #{id}")
+    void deleteShop(Long id);
+
+    // ✅ 4. 상품 단건 조회 (상세보기)
+    @Select("SELECT * FROM shop WHERE id = #{id}")
+    Shop getShop(Long id);
+
+    // ✅ 5. 상품 전체 목록 조회 (리스트)
+    @Select("SELECT * FROM shop ORDER BY id DESC")
+    List<Shop> getShopList();
+}

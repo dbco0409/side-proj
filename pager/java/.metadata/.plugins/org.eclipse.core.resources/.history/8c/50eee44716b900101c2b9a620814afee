@@ -1,0 +1,18 @@
+package com.pager.Controller;
+
+import com.pager.mapper.QuoteMapper;
+import com.pager.model.Quote;
+import com.pager.model.User;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.*;
+
+@RestController
+@RequestMapping("/list01")
+public class ApiController {
+
+    
+}

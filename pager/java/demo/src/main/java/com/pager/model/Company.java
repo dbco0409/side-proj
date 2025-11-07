@@ -1,0 +1,29 @@
+package com.pager.model;
+
+import java.time.LocalDateTime;
+
+import lombok.Data;
+
+@Data
+public class Company {
+	private int id;
+	private String no1;
+	private String no2;
+	private String title;
+	private String company;
+	private String status;
+	private String category1;
+	private String category2;
+	private String category3;
+	private String startTime;
+	private String endTime;
+	private String name;
+	private String tel;
+	private String content;
+	private String fileName1;
+	private String file1;
+	private String fileName2;
+	private String file2;
+	private String fileName3;
+	private String file3;
+}

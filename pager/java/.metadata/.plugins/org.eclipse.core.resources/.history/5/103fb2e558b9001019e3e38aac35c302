@@ -1,0 +1,36 @@
+package com.pager.Controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.pager.service.QuoteService;
+
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
+@RequestMapping("/ordering")
+@RequiredArgsConstructor
+public class QuoteController {
+
+    private final QuoteService quoteService;
+
+    @GetMapping("/list")
+    public String getQuoteApiList(Model model) {
+        Map<String, List<Map<String, Object>>> grouped = quoteService.fetchAndGroupByDate();
+
+        List<Map<String, Object>> items = new ArrayList<>();
+        grouped.values().forEach(items::addAll);
+
+        items.sort((a, b) -> String.valueOf(b.getOrDefault("orderPlanDate",""))
+                         .compareTo(String.valueOf(a.getOrDefault("orderPlanDate",""))));
+
+        model.addAttribute("items", items);          // ✅ 테이블에서 이걸 씁니다
+        model.addAttribute("total", items.size());   // ✅ 역순 No 계산용(선택)
+        return "quote"; // templates/quote.html
+    }
+}

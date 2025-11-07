@@ -1,0 +1,13 @@
+package com.pager.mapper;
+
+import com.pager.model.User;
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface UserMapper {
+    User findByMbId(String mbId); // 이메일로 비밀번호 찾기
+    void insertUser(User user); // 가입
+    void updateUser(User user); //회원 수정
+	void updatePassword(User user); // 비밀번호 수정
+	void deleteUserByMbId(String mbId); // 회원탈퇴 (update로 hashYN를 'Y'로 변경)
+}

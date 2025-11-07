@@ -1,0 +1,37 @@
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+		const pw = document.getElementById('mbPassword').value.trim();
+	  	const pw2 = document.getElementById('mbPasswordRe').value.trim();
+	
+	  if (pw === '' || pw2 === '') {
+	    alert('비밀번호를 입력해주세요.');
+	    e.preventDefault();
+	    return;
+	  }
+	
+	  if (pw !== pw2) {
+	    alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
+	    e.preventDefault();
+	    return;
+	  }
+	
+	  if (!document.getElementById('agree01').checked) {
+	    alert('이용약관에 동의해야 회원가입이 가능합니다.');
+	    e.preventDefault();
+	    return;
+	  }
+});
+
+function agreePopup() {
+	const checkbox = document.getElementById('agree01');
+	const popup = document.getElementById('agreePopup');
+
+	// 체크박스 자동 체크
+	checkbox.checked = true;
+
+	// 팝업 열기
+	popup.style.display = 'block';
+}
+
+function closePopup() {
+	document.getElementById('agreePopup').style.display = 'none';
+}

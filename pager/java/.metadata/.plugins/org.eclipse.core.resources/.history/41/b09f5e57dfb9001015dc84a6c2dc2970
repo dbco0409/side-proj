@@ -1,0 +1,96 @@
+package com.pager.service;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
+@Service
+public class QuoteService {
+
+    private static final String SERVICE_URL =
+        "https://apis.data.go.kr/1230000/ao/OrderPlanSttusService/getOrderPlanSttusListServcPPSSrch";
+    private static final String SERVICE_KEY = "b6QUXFo4NJdzDjrwkgiDQAoVJIhjHLU9NplomktTDExQr8f5t153FdoHN%2FhWgBpgNcbIWhNsL%2FfJSnFqNZGdvg%3D%3D";
+
+    // ✅ "홈페이지" + "웹" 두 번 조회 후 날짜별 그룹핑
+    public Map<String, List<Map<String, Object>>> fetchAndGroupByDate() {
+        List<Map<String, Object>> allResults = new ArrayList<>();
+
+        allResults.addAll(fetchOpenApiData("홈페이지"));
+        allResults.addAll(fetchOpenApiData("웹"));
+        allResults.addAll(fetchOpenApiData("앱"));
+        allResults.addAll(fetchOpenApiData("web"));
+        allResults.addAll(fetchOpenApiData("app"));
+        allResults.addAll(fetchOpenApiData("ai"));
+        
+
+        // ✅ orderBgnYm 기준으로 그룹핑
+        Map<String, List<Map<String, Object>>> grouped = new TreeMap<>(Comparator.reverseOrder());
+        for (Map<String, Object> item : allResults) {
+            String orderDate = (String) item.getOrDefault("orderBgnYm", "20251104");
+            grouped.computeIfAbsent(orderDate, k -> new ArrayList<>()).add(item);
+        }
+
+        return grouped;
+    }
+
+    // ✅ 단일 bizNm 검색 함수
+    private List<Map<String, Object>> fetchOpenApiData(String bizNm) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
+
+        try {
+            String url = String.format(
+                "%s?serviceKey=%s&pageNo=1&numOfRows=1000&type=json&bizNm=%s",
+                SERVICE_URL,
+                SERVICE_KEY,
+                URLEncoder.encode(bizNm, StandardCharsets.UTF_8)
+            );
+
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> response = restTemplate.getForEntity(URI.create(url), String.class);
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(response.getBody());
+            JsonNode itemsNode = root.path("response").path("body").path("items");
+
+            if (itemsNode.isArray()) {
+                for (JsonNode item : itemsNode) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("bizNm", item.path("bizNm").asText());
+                    map.put("orderPlanUntyNo", item.path("orderPlanUntyNo").asText());
+                    map.put("orderInsttNm", item.path("orderInsttNm").asText());
+                    map.put("deptNm", item.path("deptNm").asText());
+                    map.put("nticeDt", item.path("nticeDt").asText());
+                    map.put("totlmngInsttNm", item.path("totlmngInsttNm").asText());
+                    map.put("bsnsTyNm", item.path("bsnsTyNm").asText());
+                    map.put("jrsdctnDivNm", item.path("jrsdctnDivNm").asText());
+                    map.put("bsnsTyNm", item.path("bsnsTyNm").asText());
+                    map.put("ofclNm", item.path("ofclNm").asText());
+                    map.put("telNo", item.path("telNo").asText());
+                    
+                    resultList.add(map);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public Map<String, Object> fetchDetailByOrderPlanUntyNo(String orderPlanUntyNo) {
+    	
+        Map<String, List<Map<String, Object>>> grouped = fetchAndGroupByDate();
+        return grouped.values().stream()
+                .flatMap(List::stream)
+                .filter(m -> orderPlanUntyNo.equals(String.valueOf(m.get("orderPlanUntyNo"))))
+                .findFirst()
+                .orElse(null);
+    }
+}

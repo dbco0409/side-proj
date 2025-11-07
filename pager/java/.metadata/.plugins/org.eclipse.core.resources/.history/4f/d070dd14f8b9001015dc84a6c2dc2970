@@ -1,0 +1,45 @@
+// com.pager.controller.BidController.java
+package com.pager.Controller;
+
+import com.pager.model.BidApiItem;
+import com.pager.service.BidOpenApiService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@Controller
+@RequestMapping("/bid")
+@RequiredArgsConstructor
+public class BidController {
+
+    private final BidOpenApiService bidOpenApiService;
+
+    // 페이지 진입(초기 로드: 기본 키워드 "웹")
+    @GetMapping("/list")
+    public String list(@RequestParam(defaultValue = "1") int page, Model model) {
+        List<BidApiItem> bids = bidOpenApiService.fetchDefaultWebAndHomepage(page, 1000);
+        model.addAttribute("bids", bids);
+        model.addAttribute("total", bids.size());
+        return "bid";
+    }
+    
+    @GetMapping("/view/{prcrmntReqNo}")
+    public String viewOrdering(@PathVariable String prcrmntReqNo, Model model) {
+        // 서비스에서 단건 조회 (공공API에 id 파라미터가 있으면 직접 조회, 없으면 목록에서 필터)
+        Map<String, Object> item = bidOpenApiService.fetchDetailByOrderPlanUntyNo(prcrmntReqNo);
+
+        if (item == null || item.isEmpty()) {
+            // 필요 시 에러 메시지 모델에 담고 목록으로
+            // model.addAttribute("error", "상세 데이터를 찾을 수 없습니다.");
+            return "redirect:/bid/list";
+        }
+
+        model.addAttribute("item", item);
+        return "bid_view"; // templates/ordering_view.html
+    }
+
+}

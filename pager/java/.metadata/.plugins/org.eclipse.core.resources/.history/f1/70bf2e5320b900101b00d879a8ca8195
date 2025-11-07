@@ -1,0 +1,19 @@
+package com.pager.model;
+
+import lombok.Data;
+
+@Data
+public class Quote {
+	private int id;
+	private String no1;
+	private String no2;
+	private String title;
+	private String  company;
+	private String status;
+	private String endTime;
+	private String name;
+	private String tel;
+	private String content;
+	private String fileName;
+	private String file;
+}

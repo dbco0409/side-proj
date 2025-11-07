@@ -1,0 +1,14 @@
+package com.pager.model;
+
+import lombok.Data;
+
+@Data
+public class BidApiItem {
+	private String bidNtceNo; // 입찰공고번호
+    private String ntceNm;           // 요청명(사업명)
+    private String opengPlce;    // 기관명
+    private String opengDt;         // 공고게시일시(원문 그대로 문자열)
+    private String bidClseDt;       // 입찰마감일시(있으면 세팅, 없으면 null)
+    private String sucsfbidMthdNm;
+    private String ntceDivNm;
+}

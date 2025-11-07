@@ -1,0 +1,140 @@
+package com.pager.Controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.pager.model.News;
+import com.pager.model.Shop;
+import com.pager.model.User;
+import com.pager.service.NewsService;
+import com.pager.service.ShopService;
+import com.pager.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+
+@Controller
+@RequestMapping("/admin")
+@RequiredArgsConstructor
+public class AdminController {
+	private final UserService userService;
+	private final NewsService newsService;
+	private final ShopService shopService;
+	
+	@GetMapping("/main")
+	public String adminMethod(Model model, HttpSession session) {
+    	
+		User loginUser = (User) session.getAttribute("loginUser");
+        if (loginUser == null) return "redirect:/login";
+        if (!"admin@naver.com".equals(loginUser.getMbId())) return "redirect:/";
+        
+        model.addAttribute("mbId", loginUser.getMbId());
+        model.addAttribute("mbName", loginUser.getMbName());
+        
+		return "/admin/index";
+	}
+	
+	@PostMapping("/main")
+	@ResponseBody
+	public Map<String, Object> edit(
+	        @RequestParam String mbId,
+	        @RequestParam String mbPassword,
+	        @RequestParam String mbPasswordRe,
+	        @RequestParam String mbName,
+	        HttpSession session) {
+
+	    Map<String, Object> result = new HashMap<>();
+
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        result.put("success", false);
+	        result.put("message", "로그인이 필요합니다.");
+	        return result;
+	    }
+
+	    User user = userService.getByMbId(mbId);
+	    if (user == null) {
+	        result.put("success", false);
+	        result.put("message", "회원 정보를 찾을 수 없습니다.");
+	        return result;
+	    }
+
+	    if (!mbPassword.equals(mbPasswordRe)) {
+	        result.put("success", false);
+	        result.put("message", "비밀번호가 일치하지 않습니다.");
+	        return result;
+	    }
+
+	    // DB 업데이트
+	    user.setMbId(mbId);
+	    user.setMbName(mbName);
+	    user.setMbPassword(userService.encodePassword(mbPassword));
+	    userService.updateUser(user);
+	    userService.updatePassword(user);
+
+	    session.setAttribute("loginUser", user);
+
+	    result.put("success", true);
+	    result.put("message", "관리자정보가 수정되었습니다.");
+	    return result;
+	}
+	
+	
+	/* 이벤트 관리*/
+	
+	@GetMapping("/news/add")
+    public String getAddNews(Model model) {
+		model.addAttribute("news", new News());
+        return "admin/news_view";
+    }
+	
+	@PostMapping("/news/add")
+    public String addNews(News news) {
+		newsService.insertNews(news);
+        return "redirect:/admin/news/list"; // 등록 후 리스트 페이지로 이동
+    }
+	
+	@GetMapping("/news/edit/{id}")
+    public String getNews(@PathVariable Long id, Model model) {
+    	News news = newsService.getNews(id);
+        model.addAttribute("news", news);
+        return "admin/news_view";
+    }
+	
+	@GetMapping("/news/delete/{id}")
+    public String deleteNews(@PathVariable Long id) {
+		newsService.deleteNews(id);
+        return "redirect:/admin/news/list"; 
+    }
+	
+	@PostMapping("/news/edit/")
+    public String editCompany(News news) {
+		newsService.updateNews(news);
+        return "redirect:/admin/news/list"; // 등록 후 리스트 페이지로 이동
+    }
+    
+    @GetMapping("/news/list")
+    public String list(Model model) {
+        List<News> news = newsService.getNewsList();
+        model.addAttribute("news", news);
+        return "admin/news"; 
+    }
+    
+    @GetMapping("/shop/add")
+    public String addForm(Model model) {
+        model.addAttribute("shop", new Shop());
+        return "shop_add"; // → templates/shop_add.html
+    }
+    
+}

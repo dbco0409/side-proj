@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>
+    제품 관리
+  </title>
+  <!-- Favicon -->
+  <link href="/assets/img/brand/favicon.png" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link href="/assets/js/plugins/nucleo/css/nucleo.css" rel="stylesheet" />
+  <link href="/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link href="/assets/css/argon-dashboard.css?v=1.1.2" rel="stylesheet" />
+</head>
+
+<body class="">
+  <header th:replace="~{/fragments/admin.head :: commonHead('메인 페이지')}"></header>
+  <div class="main-content">
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+      <div class="container-fluid">
+        <!-- Brand -->
+        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="/admin/shop/list">제품 관리</a>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8"></div>
+    <form th:action="${shop.id} ? '/admin/shop/edit/' : '/admin/shop/add'" method="post" enctype="multipart/form-data">
+    <div class="container-fluid mt--7">
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+             	<div class="row">
+	              <div class="col-8">
+	                  <h3 class="mb-0">제품 관리</h3>
+	              </div>
+	              <div class="col-4 text-right">
+	                 <button type="button" class="btn btn-light" onclick="location.href='/admin/news/list'">목록</button>
+	                  <button type="submit" class="btn btn-primary" th:text="${shop.id} ? '수정하기' : '작성하기'">
+	                  </button>	
+	               </div>
+             	</div>
+            </div>
+            <div class="">
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-thumb">썸네일 이미지</label>
+                        <input type="file" id="input-thumb" name="thumbFile" class="form-control form-control-alternative" value="2025-08-08">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-target">제품명</label>
+                        <input type="text" id="input-target" name="title" class="form-control form-control-alternative" th:value="${shop.title}">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-target">제품사</label>
+                        <input type="text" id="input-target" name="company" class="form-control form-control-alternative" th:value="${shop.company}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+								<label>
+								  <input type="checkbox" name="category1" value="문구"
+								         th:checked="${shop.category1 == '문구'}"> 문구
+								</label>
+								<label>
+								  <input type="checkbox" name="category1" value="리빙"
+								         th:checked="${shop.category1 == '리빙'}"> 리빙
+								</label>
+								<label>
+								  <input type="checkbox" name="category1" value="패션"
+								         th:checked="${shop.category1 == '패션'}"> 패션
+								</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-end">분류2</label><br/>
+                                <label>
+								  <input type="checkbox" name="category2" value="사무실"
+								         th:checked="${shop.category2 == '사무실'}"> 사무실
+								</label>
+								<label>
+								  <input type="checkbox" name="category2" value="집안"
+								         th:checked="${shop.category2 == '집안'}"> 집안
+								</label>
+								<label>
+								  <input type="checkbox" name="category2" value="야외"
+								         th:checked="${shop.category2 == '야외'}"> 야외
+								</label>
+								<label>
+								  <input type="checkbox" name="category2" value="카페"
+								         th:checked="${shop.category2 == '카페'}"> 카페
+								</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-price">제품가격</label><br/>
+                                <input type="text" id="input-price" name="price" class="form-control form-control-alternative" th:value="${shop.price}" style="width:80%; display:inline-block; margin-right:10px;">원
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+	                      <div class="form-group">
+	                        <label class="form-control-label" for="input-target">배달비</label>
+	                        <input type="text" id="input-target" name="delivery_price" class="form-control form-control-alternative" th:value="${shop.delivery_price}">
+	                      </div>
+	                    </div>
+                    </div>
+                    <div class="row">
+                    	<div class="col-lg-5">
+	                      <div class="form-group">
+	                        <label class="form-control-label" for="input-target">연결 URL</label>
+	                        <input type="text" id="input-target" name="url" class="form-control form-control-alternative" th:value="${shop.url}">
+	                      </div>
+	                    </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-hot">제품 표시</label><br/>
+                                <label><input type="checkbox" id="input-hot" name="hot" class="form-checkbox" value="1" th:checked="${shop.hot == 1}" > HOT</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+  <footer th:replace="~{fragments/admin.foot :: commonFoot('푸터 페이지')}"></footer>
+</body>
+
+</html>

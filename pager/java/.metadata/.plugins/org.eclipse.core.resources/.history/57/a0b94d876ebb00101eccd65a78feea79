@@ -1,0 +1,50 @@
+package com.pager.mapper;
+
+import org.apache.ibatis.annotations.*;
+
+import com.pager.model.User;
+
+@Mapper
+public interface UserMapper {
+
+    // ✅ 1. 이메일(ID)로 회원 조회
+    @Select("SELECT * FROM `USER` WHERE mbId = #{mbId} AND mbName = #{mbName}")
+    User findByMbId(String mbId, String mbName); 
+    
+    @Select("SELECT * FROM `USER` WHERE mbId = #{mbId}")
+    User getByMbId(String mbId); 
+
+    // ✅ 2. 회원가입
+    @Insert("""
+        INSERT INTO `USER` (mbId, mbPassword, mbName, joinDate, recentDate, hashYN)
+        VALUES (#{mbId}, #{mbPassword}, #{mbName}, NOW(), NOW(), 'N')
+    """)
+    void insertUser(User user); 
+
+    // ✅ 3. 회원 정보 수정 (비밀번호 제외)
+    @Update("""
+        UPDATE `USER`
+        SET mbName = #{mbName},
+            recentDate = NOW()
+        WHERE mbId = #{mbId}
+    """)
+    void updateUser(User user);
+
+    // ✅ 4. 비밀번호 수정
+    @Update("""
+        UPDATE `USER`
+        SET mbPassword = #{mbPassword},
+            recentDate = NOW()
+        WHERE mbId = #{mbId}
+    """)
+    void updatePassword(User user);
+
+    // ✅ 5. 회원탈퇴 처리 (hashYN를 'Y'로 변경)
+    @Update("""
+        UPDATE `USER`
+        SET hashYN = 'Y',
+            recentDate = NOW()
+        WHERE mbId = #{mbId}
+    """)
+    void deleteUserByMbId(String mbId);
+}

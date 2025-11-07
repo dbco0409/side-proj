@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="commonHead(title)">
+   <header id="header">
+         <div class="inner">
+	<button type="button" class="menuBtn" id="menuBtn"><img src="../images/common/menu.svg" alt=""></button>
+             <div class="logo">
+                 <a href="/"><img src="../images/common/logo.png"/></a>
+             </div>
+	<div class="menu">
+		<div class="rightMenu" th:if="${session.loginUser == null}">
+			<a href="/login">로그인</a>
+			<a href="/register">회원가입</a>
+			<a href="/cart">장바구니</a>
+		</div>
+		<div class="rightMenu" th:if="${session.loginUser != null}">
+			<a href="/mypage">마이페이지</a>
+			<a href="/logout">로그아웃</a>
+			<a href="/cart">장바구니</a>
+		</div>
+		<nav class="gnb" id="gnb">
+			<ul>
+				<li><a href="/ordering/list">발주계획</a></li>
+				<li><a href="/bid/list">입찰정보</a></li>
+				<li><a href="/company/list">제휴기업</a></li>
+				<li><a href="/shop/list">페이저샵</a></li>
+				<li><a href="/news/list">뉴스/인사이트</a></li>
+			</ul>
+		</nav>
+	</div>
+	<button type="button" class="menuBtn" id="memberBtn"><img src="../images/common/user.svg" alt=""></button>
+         </div>
+     </header>
+	<aside id="mobileMenu">
+		<div class="inner">
+			<button type="button" class="closeBtn" id="closeBtn"><img src="../images/common/close.svg" alt=""></button>
+			<h2>안녕하세요. 반갑습니다.</h2>
+			<div class="box" th:if="${session.loginUser == null}">
+				<ul>
+					<li><a href="/login">로그인</a></li>
+					<li><a href="/register">회원가입</a></li>
+					<li><a href="/cart">장바구니</a></li>
+				</ul>
+			</div>
+			<div class="box" th:if="${session.loginUser != null}">
+				<ul>
+					<li><a href="/mypage">마이페이지</a></li>
+					<li>구매내역조회</li>
+					<li><a href="/cart">장바구니</a></li>
+				</ul>
+			</div>
+			<nav class="gnb" id="gnb">
+				<ul>
+					<li><a href="/ordering/list">발주계획</a></li>
+					<li><a href="/bid/list">입찰정보</a></li>
+					<li><a href="/company/list">제휴기업</a></li>
+					<li><a href="/shop/list">페이저샵</a></li>
+					<li><a href="/news/list">뉴스/인사이트</a></li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+</body>
+</html>

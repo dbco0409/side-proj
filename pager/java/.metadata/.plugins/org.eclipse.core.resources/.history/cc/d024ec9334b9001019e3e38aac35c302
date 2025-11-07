@@ -1,0 +1,29 @@
+package com.pager.Controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.pager.service.QuoteService;
+
+import java.util.Map;
+import java.util.List;
+
+@Controller
+@RequestMapping("/ordering")
+@RequiredArgsConstructor
+public class QuoteController {
+
+    private final QuoteService quoteService;
+
+    @GetMapping("/list")
+    public String getQuoteApiList(Model model) {
+        // "홈페이지"와 "웹" 두 키워드 각각 조회 후 통합
+        Map<String, List<Map<String, Object>>> groupedData = quoteService.fetchAndGroupByDate();
+
+        model.addAttribute("groupedData", groupedData);
+        return "quote"; // templates/quote.html
+    }
+}

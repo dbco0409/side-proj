@@ -1,0 +1,34 @@
+package com.pager.Controller;
+
+import com.pager.model.Qna;
+import com.pager.service.QnaService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequiredArgsConstructor
+public class IndexController {
+
+    private final QnaService qnaService;
+
+    
+    @PostMapping("/qna")
+    public Map<String, Object> submitQna(@RequestBody Qna qna) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            // DB 저장
+            qnaService.insertQna(qna);
+
+            result.put("success", true);
+            result.put("message", "문의가 정상적으로 접수되었습니다. 담당자가 빠르게 답변드리겠습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("success", false);
+            result.put("message", "문의 접수 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+        return result; // JSON으로 자동 변환되어 클라이언트로 응답
+    }
+}

@@ -1,0 +1,16 @@
+package com.pager.model;
+
+import lombok.Data;
+
+@Data
+public class shop {
+	private long id;
+	private String title;
+	private int price;
+	private int delivery_price;
+	private int total_price;
+	private String category1;
+	private String category2;
+	
+	
+}

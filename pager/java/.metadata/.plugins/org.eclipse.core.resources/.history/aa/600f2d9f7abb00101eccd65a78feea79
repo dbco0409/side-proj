@@ -1,0 +1,15 @@
+package com.pager.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 기본 업로드 폴더 매핑 (이미 있다면 생략 가능)
+        registry.addResourceHandler("/upload/**")
+                .addResourceLocations("file:///C:/upload/");
+    }
+}

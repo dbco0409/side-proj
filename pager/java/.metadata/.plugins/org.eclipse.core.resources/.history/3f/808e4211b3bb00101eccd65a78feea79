@@ -1,0 +1,24 @@
+spring.application.name=demo
+spring.datasource.url=jdbc:mariadb://localhost:8800/pager
+spring.datasource.username=root
+spring.datasource.password=1234
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+
+# 문자셋 (필요시)
+spring.datasource.hikari.connection-init-sql=SET NAMES utf8mb4
+
+# Thymeleaf
+spring.thymeleaf.cache=false
+spring.thymeleaf.encoding=UTF-8
+
+mybatis.mapper-locations=classpath:mapper/*.xml
+mybatis.type-aliases-package=com.example.demo.model
+
+logging:
+  level:
+    org.mybatis: DEBUG
+    com.example.demo.mapper: DEBUG
+
+# application.properties
+spring.servlet.multipart.max-file-size=100MB
+spring.servlet.multipart.max-request-size=100MB

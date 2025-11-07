@@ -1,0 +1,30 @@
+package com.pager.Controller;
+
+import com.pager.mapper.QuoteMapper;
+import com.pager.model.Quote;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/list01")
+public class QuoteController {
+
+    private final QuoteService quoteService;
+
+    @PostMapping("/add")
+    public String addQuote(@RequestBody Quote quote) {
+        quoteService.insertQuote(quote);
+        return "success";
+    }
+
+    @GetMapping("/{id}")
+    public Quote getQuote(@PathVariable Long id) {
+        return quoteService.getQuote(id);
+    }
+
+    @GetMapping("/list")
+    public List<Quote> list() {
+        return quoteService.getQuoteList();
+    }
+}

@@ -1,0 +1,13 @@
+package com.pager.model;
+
+import lombok.Data;
+
+@Data
+public class BidApiItem {
+	private String orderPlanUntyNo; // 입찰공고번호
+    private String bizNm;           // 요청명(사업명)
+    private String orderInsttNm;    // 기관명
+    private String nticeDt;         // 공고게시일시(원문 그대로 문자열)
+    private String status;          // 진행상태(있으면 세팅, 없으면 "-")
+    private String ntceNm;       // 입찰마감일시(있으면 세팅, 없으면 null)
+}

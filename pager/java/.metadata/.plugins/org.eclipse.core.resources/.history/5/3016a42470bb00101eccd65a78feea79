@@ -1,0 +1,57 @@
+package com.pager.Controller;
+
+import com.pager.model.Qna;
+import com.pager.service.QnaService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequiredArgsConstructor
+public class IndexController {
+
+    private final QnaService qnaService;
+
+    /** ✅ 메인 페이지 (GET: index.html) */
+    @GetMapping("/")
+    public String showIndex() {
+        return "index"; // templates/index.html
+    }
+
+    /** ✅ 문의 폼 처리 (POST: /) */
+    @PostMapping("/")
+    public String submitQna(@RequestParam("name") String name,
+                            @RequestParam(value = "tim", required = false) String department,
+                            @RequestParam(value = "company", required = false) String company,
+                            @RequestParam("tel") String tel,
+                            @RequestParam("email") String email,
+                            @RequestParam("cate1") String category,
+                            @RequestParam("contents") String content,
+                            Model model) {
+
+        try {
+            // 1️⃣ Qna 객체 생성
+            Qna qna = new Qna();
+            qna.setName(name);
+            qna.setDepartment(department);
+            qna.setCompany(company);
+            qna.setTel(tel);
+            qna.setEmail(email);
+            qna.setCategory(category);
+            qna.setContent(content);
+
+            // 2️⃣ DB 저장
+            qnaService.insertQna(qna);
+
+            // 3️⃣ 성공 메시지 (필요시)
+            model.addAttribute("success", "문의가 성공적으로 접수되었습니다. 담당자가 빠르게 답변드리겠습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "문의 접수 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+
+        // ✅ index.html로 리다이렉트 or 결과 페이지 렌더링
+        return "index"; // 또는 return "redirect:/";
+    }
+}

@@ -1,0 +1,11 @@
+package com.pager.mapper;
+
+import com.pager.model.Quote;
+
+public class QuoteMapper {
+	void insertQuote(Quote quote); // 견적요청 등록
+	void updateQuote(Quote quote); // 견적요청 수정
+	void deleteQuote(Long id); // 견적요청 삭제
+	List<quote> getQuote(Long id); // 견적요청 리스트
+
+}

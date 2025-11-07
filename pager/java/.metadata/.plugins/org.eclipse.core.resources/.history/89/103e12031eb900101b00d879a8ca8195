@@ -1,0 +1,18 @@
+spring.application.name=pager
+spring.datasource.url=jdbc:mariadb://localhost/pager
+spring.datasource.username=root
+spring.datasource.password=1234
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+
+# JPA 설정
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
+spring.jpa.properties.hibernate.format_sql=true
+
+# 문자셋 (필요시)
+spring.datasource.hikari.connection-init-sql=SET NAMES utf8mb4
+
+# Thymeleaf
+spring.thymeleaf.cache=false
+spring.thymeleaf.encoding=UTF-8

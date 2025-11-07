@@ -1,0 +1,27 @@
+// com.pager.controller.BidController.java
+package com.pager.Controller;
+
+import com.pager.model.BidApiItem;
+import com.pager.service.BidOpenApiService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/bid")
+@RequiredArgsConstructor
+public class BidController {
+
+    private final BidOpenApiService bidOpenApiService;
+
+    @GetMapping("/list")
+    public String list(@RequestParam(defaultValue = "1") int page, Model model) {
+        List<BidApiItem> bids = bidOpenApiService.fetch(page, 1000);
+        model.addAttribute("bids", bids);
+        model.addAttribute("total", bids.size());
+        return "bid_list"; // templates/bid_list.html
+    }
+}

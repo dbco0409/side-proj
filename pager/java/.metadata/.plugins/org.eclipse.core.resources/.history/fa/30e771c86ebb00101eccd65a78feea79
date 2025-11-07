@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="commonFoot(title)">
+<footer>
+	<div class="inner">
+		<div class="rightmenu">
+			<a href="">이용약관</a>
+			<a href="">개인정보취급방침</a>
+			<a href="">제휴약관</a>
+		</div>
+		<div class="foot">
+			<img th:src="@{/images/common/logo_gray.png}" alt="" class="logo">
+			<div class="copyright">
+				<div class="info">
+					<p>(주)페이저 | 대표자: 홍길동 | 사업자등록번호: 123-45-67890 | 통신판매업신고번호: 제2023-서울강남-01234호</p>
+					<p>주소: 서울특별시 강남구 테헤란로 123, 45층 | 고객센터: 02-1234-5678 | 이메일: pageradmin@pager.com
+				</div>
+				<div class="copy">
+					<p>© 2024 Pager+. All rights reserved.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+</body>
+</html>

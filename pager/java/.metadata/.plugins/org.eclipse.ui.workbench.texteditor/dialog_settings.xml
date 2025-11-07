@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item key="hasShownOverlayPopupBefore" value="true"/>
+	<section name="java.lang.Class">
+		<item key="replaceBarOpen" value="false"/>
+		<list key="findhistory">
+			<item value="#sub_list #table.table-bordered tbody td"/>
+			<item value="updateUser"/>
+			<item value="bidNtceNo"/>
+			<item value="cntrctCnclsMthdNmcntrctMthdNm"/>
+			<item value="bidNtceOrd"/>
+			<item value="fetchDetailByOrderPlanUntyNo"/>
+			<item value=".news .inner .col .right"/>
+			<item value=".event_view .view_info h4"/>
+			<item value=".news .inner .col .right .subj"/>
+			<item value=".news .inner .col"/>
+			<item value="txtBox"/>
+			<item value="#sub_list #table.table-bordered .no-data td"/>
+			<item value="getQuoteList"/>
+		</list>
+	</section>
+</section>

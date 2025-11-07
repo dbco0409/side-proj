@@ -1,0 +1,10 @@
+package com.pager.Controller;
+
+@ControllerAdvice
+public class GlobalControllerAdvice {
+
+    @ModelAttribute("loginUser")
+    public User addUserToModel(HttpSession session) {
+        return (User) session.getAttribute("loginUser");
+    }
+}

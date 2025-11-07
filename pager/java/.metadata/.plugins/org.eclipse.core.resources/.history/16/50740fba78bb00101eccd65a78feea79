@@ -1,0 +1,5 @@
+package com.pager.config;
+
+public class WebConfig {
+
+}

@@ -1,0 +1,44 @@
+package com.pager.Controller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.pager.model.Company;
+import com.pager.service.CompanyService;
+
+import lombok.RequiredArgsConstructor;
+
+@Controller  // ✅ RestController → Controller 로 변경
+@RequestMapping("/admin/company")
+@RequiredArgsConstructor
+public class CompanyController {
+private final CompanyService companyService;
+	
+	@PostMapping("/add")
+    public String addCompany(@RequestBody Company company) {
+		companyService.insertBid(company);
+        return "redirect:/company/list"; // 등록 후 리스트 페이지로 이동
+    }
+
+    // ✅ 단일 견적 조회
+    @GetMapping("/{id}")
+    public String getCompany(@PathVariable Long id, Model model) {
+    	Company company = companyService.getCompany(id);
+        model.addAttribute("company", company);
+        return "company_view"; // bid_view.html 로 이동
+    }
+    
+    @GetMapping("/list")
+    public String list(Model model) {
+        List<Company> companys = companyService.allCompanyList();
+        model.addAttribute("companys", companys);
+        return "company"; // ✅ quote.html 렌더링
+    }
+}

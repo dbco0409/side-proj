@@ -1,0 +1,15 @@
+package com.pager.Controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.pager.service.QuoteService;
+
+import lombok.RequiredArgsConstructor;
+
+@Controller  // ✅ RestController → Controller 로 변경
+@RequestMapping("/bid")
+@RequiredArgsConstructor
+public class BidController {
+
+}

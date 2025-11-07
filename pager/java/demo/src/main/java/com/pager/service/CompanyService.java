@@ -1,0 +1,45 @@
+package com.pager.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.pager.mapper.CompanyMapper;
+import com.pager.model.Company;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class CompanyService {
+	private final CompanyMapper companyMapper;
+
+    // ✅ 1. 입찰 등록
+    public void insertBid(Company company) {
+    	companyMapper.insertCompany(company);
+    }
+
+    // ✅ 2. 입찰 수정
+    public void updateBid(Company company) {
+    	companyMapper.updateCompany(company);
+    }
+
+    // ✅ 3. 입찰 삭제
+    public void deleteBid(Long id) {
+    	companyMapper.deleteCompany(id);
+    }
+
+    // ✅ 4. 단일 입찰 조회
+    @Transactional(readOnly = true)
+    public Company getCompany(Long id) {
+        return companyMapper.getCompany(id);
+    }
+
+    // ✅ 5. 전체 입찰 목록 조회
+    @Transactional(readOnly = true)
+    public List<Company> allCompanyList() {
+        return companyMapper.allCompanyList();
+    }
+}

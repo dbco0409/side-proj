@@ -1,0 +1,63 @@
+package com.pager.Controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.pager.mapper.UserMapper;
+import com.pager.model.User;
+import com.pager.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+
+@Controller
+@RequiredArgsConstructor
+public class UserController {
+	private final UserMapper userMapper;
+	
+	@GetMapping("/login")
+    public String showLoginForm() {
+        return "login"; // login.html
+    }
+    
+    @PostMapping("/login")
+    @ResponseBody
+    public Map<String, Object> LoginForm(@RequestParam("mb_id") String mbId,
+                                         @RequestParam("mb_password") String mbPassword,
+                                         HttpSession session) {
+        Map<String, Object> result = new HashMap<>();
+
+        User user = UserService.findByMbId(mbId);
+
+        if (user == null || !UserService.checkPassword(mbPassword, user.getMb_password())) {
+            result.put("success", false);
+            result.put("message", user);
+            return result;
+        }
+
+        // 세션 저장
+        session.setAttribute("loginUser", user);
+
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
+        session.setAttribute("SPRING_SECURITY_CONTEXT", context);
+
+        result.put("success", true);
+        result.put("redirect", "/");
+
+        return result;
+    }
+}

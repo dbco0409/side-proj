@@ -1,0 +1,13 @@
+package com.pager.mapper;
+
+import com.pager.model.User;
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface UserMapper {
+    User findByMbId(String mbId);
+    void insertUser(User user);
+    void updateUser(User user);
+	void updatePassword(User user);
+	void deleteUserByMbId(String mbId);
+}

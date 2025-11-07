@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pager+</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" th:href="@{/css/swiper.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+
+    <!-- js -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script th:src="@{/js/swiper.min.js}"></script>
+    <script th:src="@{/js/commons.js}"></script>
+    <script th:src="@{/js/index.js}"></script>
+</head>
+
+<body>
+	<div id="bg"></div>
+    <div id="wrap">
+        <header th:replace="~{fragments/head :: commonHead('메인 페이지')}"></header>
+        <section id="main01">
+			<div class="main_slider swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide slide01">
+						<div class="box">
+							<div class="title">
+								<h2>PAGER<span>+</span></h2>
+								<p>웹사이트 입찰 정보를 한 곳에 모은,<br/>당신의 비즈니스 성장 플랫폼.</p>
+								<button class="btn">지금 핫한 입찰 정보 보기</button>
+							</div>
+						</div>
+					</div>
+					<div class="swiper-slide slide02">
+						<div class="box">
+							<div class="title">
+								<h2>Connect<span>+</span></h2>
+								<p>웹 에이전시와 발주처를 연결하고, <br/>새로운 협력의 기회를 만듭니다.</p>
+								<button class="btn">최신 발주 정보 보기</button>
+							</div>
+						</div>
+					</div>
+					<div class="swiper-slide slide03">
+						<div class="box">
+							<div class="title">
+								<h2>Growth<span>+</span></h2>
+								<p>정확한 입찰 정보를 통해 더 많은 프로젝트, <br/>더 큰 비즈니스 성장을 경험하세요.</p>
+								<button class="btn">최신 입찰 정보 보기</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="main02">
+			<ul>
+				<li>
+					<h4>15,820</h4>
+					<p>누적 입찰 데이터</p>
+				</li>
+				<li>
+					<h4>720</h4>
+					<p>누적 공공입찰 데이터</p>
+				</li>
+				<li>
+					<h4>1,215</h4>
+					<p>누적 민간입찰 데이터</p>
+				</li>
+				<li>
+					<h4>152</h4>
+					<p>낙찰 성공 건수</p>
+				</li>
+			</ul>
+		</section>
+		<section id="main03">
+			<div class="main3_slider swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide slide01">
+						<div class="box">
+							<h3>2026년 통일부 홈페이지 유지관리 사업</h3>
+							<p>2025.10.31 ~ 2025.11.11</p>
+							<button class="btn">입찰 공고 상세 보기</button>
+						</div>
+					</div>
+					<div class="swiper-slide slide02">
+						<div class="box">
+							<h3>2026년 충북소방본부 통합홈페이지 유지관리 용역</h3>
+							<p>2026.02.01 - 2026.03.15</p>
+							<button class="btn">입찰 공고 상세 보기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="main04">
+			<div class="head">
+				<div class="title">
+					<h3>페이저샵 상품</h3>
+					<p>PagerShop Products</p>
+				</div>
+				<button class="btn more_btn">더보기<img src="./images/common/arraw_next_black.svg"/></button>
+			</div>
+			<div class="products">
+				<ul>
+					<li>
+						<div class="thumb">
+							<span class="best">BEST</span>
+							<img src="./images/main/3756673_1.jpg"/>
+						</div>
+						<h4>로지텍 무선 광마우스 M170</h4>
+						<h2>29,900원<span><img src="./images/main/deliver.svg"/>3000원</span></h2>
+					</li>
+					<li>
+						<div class="thumb">
+							<span class="best">BEST</span>
+							<img src="./images/main/3756673_1.jpg"/>
+						</div>
+						<h4>로지텍 무선 광마우스 M170</h4>
+						<h2>29,900원<span><img src="./images/main/deliver.svg"/>3000원</span></h2>
+					</li>
+					<li>
+						<div class="thumb">
+							<span class="best">BEST</span>
+							<img src="./images/main/3756673_1.jpg"/>
+						</div>
+						<h4>로지텍 무선 광마우스 M170</h4>
+						<h2>29,900원<span><img src="./images/main/deliver.svg"/>3000원</span></h2>
+					</li>
+					<li>
+						<div class="thumb">
+							<span class="best">BEST</span>
+							<img src="./images/main/3756673_1.jpg"/>
+						</div>
+						<h4>로지텍 무선 광마우스 M170</h4>
+						<h2>29,900원<span><img src="./images/main/deliver.svg"/>3000원</span></h2>
+					</li>
+				</ul>
+			</div>
+		</section>
+
+		<form action="/" method="post">
+		<section id="main06">
+			<div class="inner">
+				<div class="title">
+					<h3>Contact <span>Us</span></h3>
+					<p>제휴를 원하거나 궁금한 점이 있으시면 언제든지 문의해주세요.<br/>담당자가 빠르게 답변해 드립니다.</p>
+				</div>
+				<div class="m_frm">
+					<div class="col-left">
+						<div class="input_group lefts">
+							<div class="inputs">
+								<label for="name">이름</label>
+								<input type="text" name="name" id="name" placeholder="이름" class="input_text" required>
+							</div>
+						</div>
+						<div class="input_group">
+							<div class="inputs first">
+								<label for="tim">부서</label>
+								<input type="text" name="tim" id="tim" placeholder="부서" class="input_text">
+							</div>
+							<div class="inputs">
+								<label for="company">회사</label>
+								<input type="text" name="company" id="company" placeholder="회사" class="input_text">
+							</div>
+						</div>
+						<div class="input_group">
+							<div class="inputs first">
+								<label for="tel">연락처</label>
+								<input type="tel" name="tel" id="tel" placeholder="연락처" class="input_text" required="">
+							</div>
+							<div class="inputs">
+								<label for="email">이메일</label>
+								<input type="email" name="email" id="email" placeholder="이메일" class="input_text" required="">
+							</div>
+						</div>
+					</div>
+					<div class="col-left">
+						<div class="input_group">
+							<div class="inputs div_block">
+								<label for="cate1">문의사항</label>
+								<select id="cate1" name="cate1" required="" class="sel_txt first">
+									<option value="">문의카테고리</option>
+									<option value="제휴">제휴</option>
+									<option value="회원">회원</option>
+									<option value="사이트">사이트</option>
+									<option value="상품">상품</option>
+									<option value="배송">배송</option>
+									<option value="반품/취소">반품/취소</option>
+									<option value="기타">기타</option>
+								</select>
+							</div>
+						</div>
+						<div class="input_group">
+							<div class="inputs div_block">
+								<textarea name="contents" placeholder="내용을 입력하세요." class="con_text"></textarea>
+							</div>
+						</div>
+						<div class="input_group">
+							<div class="btns div_block">
+								<button type="submit" class="btn_submit">Send</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		</form>
+
+        <section id="main05">
+			<div class="title">
+				<h3>페이저 제휴업체</h3>
+				<p>Pager Affiliate company</p>
+			</div>
+			<div class="bnns">
+				<div class="bnn-track">
+					<a href=""><img src="./images/main/bnn1.png" alt="bnn1"/></a>
+					<a href=""><img src="./images/main/bnn2.jpg" alt="bnn2"/></a>
+					<a href=""><img src="./images/main/bnn3.png" alt="bnn3"/></a>
+					<a href=""><img src="./images/main/bnn4.png" alt="bnn4"/></a>
+					<a href=""><img src="./images/main/bnn5.jpg" alt="bnn5"/></a>
+					<a href=""><img src="./images/main/bnn6.jpg" alt="bnn6"/></a>
+					<a href=""><img src="./images/main/bnn7.jpg" alt="bnn7"/></a>
+					<a href=""><img src="./images/main/bnn8.jpg" alt="bnn8"/></a>
+
+					<!-- 👇 무한 루프용 복제 세트 -->
+					<a href=""><img src="./images/main/bnn1.png" alt="bnn1"/></a>
+					<a href=""><img src="./images/main/bnn2.jpg" alt="bnn2"/></a>
+					<a href=""><img src="./images/main/bnn3.png" alt="bnn3"/></a>
+					<a href=""><img src="./images/main/bnn4.png" alt="bnn4"/></a>
+					<a href=""><img src="./images/main/bnn5.jpg" alt="bnn5"/></a>
+					<a href=""><img src="./images/main/bnn6.jpg" alt="bnn6"/></a>
+					<a href=""><img src="./images/main/bnn7.jpg" alt="bnn7"/></a>
+					<a href=""><img src="./images/main/bnn8.jpg" alt="bnn8"/></a>
+				</div>
+			</div>
+		</section>
+
+		<footer th:replace="~{fragments/foot :: commonFoot('푸터 페이지')}"></footer>
+    </div>
+</body>
+
+</html>
+

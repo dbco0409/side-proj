@@ -1,0 +1,71 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('filterForm');
+    const category1Input = document.querySelector('input[name="category1"]');
+    const category2Input = document.querySelector('input[name="category2"]');
+    const minInput = document.getElementById('minPrice');
+    const maxInput = document.getElementById('maxPrice');
+    const rangeDisplay = document.getElementById('range-display');
+    const leftVal = document.getElementById('left-value');
+    const rightVal = document.getElementById('right-value');
+
+    // ✅ 카테고리 클릭 이벤트
+    document.querySelectorAll('#category1 li').forEach(li => {
+        li.addEventListener('click', () => {
+            document.querySelectorAll('#category1 li').forEach(el => el.classList.remove('active'));
+            li.classList.add('active');
+            category1Input.value = li.textContent.trim();
+            loadShopList();
+        });
+    });
+
+    document.querySelectorAll('#category2 li').forEach(li => {
+        li.addEventListener('click', () => {
+            document.querySelectorAll('#category2 li').forEach(el => el.classList.remove('active'));
+            li.classList.add('active');
+            category2Input.value = li.textContent.trim();
+            loadShopList();
+        });
+    });
+
+    // ✅ 가격 슬라이더 (min / max)
+    const leftSlider = document.getElementById("input-left");
+    const rightSlider = document.getElementById("input-right");
+
+    const updateSlider = () => {
+        let left = parseInt(leftSlider.value);
+        let right = parseInt(rightSlider.value);
+        if (right - left < 10000) {
+            if (event.target === leftSlider) leftSlider.value = right - 10000;
+            else rightSlider.value = left + 10000;
+        }
+        left = parseInt(leftSlider.value);
+        right = parseInt(rightSlider.value);
+        minInput.value = left;
+        maxInput.value = right;
+        leftVal.textContent = left.toLocaleString();
+        rightVal.textContent = right.toLocaleString();
+        loadShopList();
+    };
+
+    leftSlider.addEventListener("input", updateSlider);
+    rightSlider.addEventListener("input", updateSlider);
+
+    // ✅ Ajax로 리스트 갱신
+    function loadShopList() {
+        const formData = new FormData(form);
+
+        fetch('/shop/list', {
+            method: 'POST', // GET보다 필터링 안정적
+            body: formData
+        })
+        .then(res => res.text())
+        .then(html => {
+            // 서버에서 HTML fragment를 반환한다고 가정
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newList = doc.querySelector('#sub_body').innerHTML;
+            document.querySelector('#sub_body').innerHTML = newList;
+        })
+        .catch(err => console.error('리스트 로딩 오류:', err));
+    }
+});
