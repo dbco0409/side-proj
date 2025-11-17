@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>
+    회원 관리
+  </title>
+  <!-- Favicon -->
+  <link href="/assets/img/brand/favicon.png" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link href="/assets/js/plugins/nucleo/css/nucleo.css" rel="stylesheet" />
+  <link href="/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link href="/assets/css/argon-dashboard.css?v=1.1.2" rel="stylesheet" />
+</head>
+
+<body class="">
+  <header th:replace="fragments/admin.head :: commonHead('메인 페이지')"></header>
+  <div class="main-content">
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+      <div class="container-fluid">
+        <!-- Brand -->
+        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">뉴스/인사이드 관리</a>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8"></div>
+	<form 
+	  th:id="${user.id != null} ? 'editForm' : 'addForm'"
+	  method="post" onsubmit="return false;">
+
+    
+    <input type="hidden" name="id" th:value="${user.id}">
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <div class="col-12">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">회원</h3>
+                </div>
+                <div class="col-4 text-right">
+                  <button type="button" class="btn btn-light" onclick="location.href='/admin/member/list'">목록</button>
+                  <button type="submit" class="btn btn-primary" th:text="${user.mbId} ? '수정하기' : '작성하기'"></button>	
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="pl-lg-4">
+                <!-- Address -->
+                <h6 class="heading-small text-muted mb-4">회원 정보</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                  	<div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-style" th:text="${user.hashYN == 'Y'} ? '(탈퇴) 아이디' : '아이디'"></label>
+                        <input type="text" name="mbId" class="form-control form-control-alternative" th:value="${user.mbId}"/>
+                      </div>
+                    </div>
+					<div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-style">비밀번호</label>
+                        <input type="password" name="mbPassword" id="mbPassword" class="form-control form-control-alternative"/>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-address">이름</label>
+                        <input name="mbName" class="form-control form-control-alternative" th:value="${user.mbName}"/>
+                      </div>
+                    </div>
+					<div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-style">비밀번호 확인</label>
+                        <input type="password" name="mbPasswordRe" id="mbPasswordRe" class="form-control form-control-alternative"/>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" 
+				          class="btn btn-danger" 
+				          th:if="${user.mbId}"
+				          th:onclick="deleteMember([[${user.mbId}]])">
+				      삭제하기
+				  </button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  	</form>
+  </div>
+  <script>
+	document.addEventListener("DOMContentLoaded", () => {
+
+	  const addForm = document.querySelector("#addForm");
+	  const editForm = document.querySelector("#editForm");
+
+	  if (addForm) addForm.addEventListener("submit", submitAddForm);
+	  if (editForm) editForm.addEventListener("submit", submitEditForm);
+	  
+	});
+	
+	async function submitAddForm(e) {
+	  e.preventDefault();
+	  const pw = document.getElementById('mbPassword').value.trim();
+	  const pw2 = document.getElementById('mbPasswordRe').value.trim();
+	
+	  if (pw === '' || pw2 === '') {
+	    alert('비밀번호를 입력해주세요.');
+	    e.preventDefault();
+	    return;
+	  }
+	
+	  if (pw !== pw2) {
+	    alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
+	    e.preventDefault();
+	    return;
+	  }else{
+		try {
+		  const res = await fetch("/admin/member/add", {
+		    method: "POST",
+		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+		    body: new URLSearchParams(new FormData(e.target)),
+		  });
+
+		  // 혹시 HTML이 돌아오더라도 안전하게 처리
+		  const text = await res.text();
+		  let result;
+		  try {
+		    result = JSON.parse(text);
+		  } catch {
+		    alert("서버 오류가 발생했습니다.");
+		    return;
+		  }
+
+		  if (result.success) {
+		    window.location.href = "/admin/member/list";
+		  } else {
+		    alert(result.message);
+		  }
+		} catch (err) {
+		  console.error(err);
+		  alert("통신 오류가 발생했습니다.");
+		}
+	  }
+	}
+
+	async function submitEditForm(e) {
+	  e.preventDefault();
+	  const pw = document.getElementById('mbPassword').value.trim();
+	  const pw2 = document.getElementById('mbPasswordRe').value.trim();
+	
+	  if (pw === '' || pw2 === '') {
+	    alert('비밀번호를 입력해주세요.');
+	    e.preventDefault();
+	    return;
+	  }
+	
+	  if (pw !== pw2) {
+	    alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
+	    e.preventDefault();
+	    return;
+	  }else{
+		try {
+		  const res = await fetch("/admin/member/edit", {
+		    method: "POST",
+		    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+		    body: new URLSearchParams(new FormData(e.target)),
+		  });
+
+		  // 혹시 HTML이 돌아오더라도 안전하게 처리
+		  const text = await res.text();
+		  let result;
+		  try {
+		    result = JSON.parse(text);
+		  } catch {
+		    alert("서버 오류가 발생했습니다.");
+		    return;
+		  }
+
+		  if (result.success) {
+		    window.location.href = "/admin/member/list";
+		  } else {
+		    alert(result.message);
+		  }
+		} catch (err) {
+		  console.error(err);
+		  alert("통신 오류가 발생했습니다.");
+		}
+	  }
+	}
+
+	function deleteMember(mbId) {
+	    if (!confirm("정말 탈퇴처리 하시겠습니까?")) return;
+
+	    fetch(`/admin/member/delete/${mbId}`)
+	        .then(res => res.json())
+	        .then(result => {
+	            if (result.success) {
+	                alert("탈퇴 처리가 완료되었습니다.");
+	                window.location.href = "/admin/member/list";
+	            } else {
+	                alert(result.message || "탈퇴 처리 중 오류가 발생했습니다.");
+	            }
+	        })
+	        .catch(err => {
+	            console.error(err);
+	            alert("서버 통신 오류가 발생했습니다.");
+	        });
+	}
+  		</script>
+		
+  <footer th:replace="fragments/admin.foot :: commonFoot('푸터 페이지')"></footer>
+</body>
+
+</html>

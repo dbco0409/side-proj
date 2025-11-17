@@ -1,0 +1,66 @@
+#login_header{position:relative; width:100%; top:0; left:0; height:130px; z-index:9999;  }
+#login_header .inner{width:90%; max-width:1200px; height:100%; margin:auto; margin:auto; display:flex; justify-content: center; align-items: center; background:rgba(255,255,255,.8);}
+#login_header .logo{text-align:center;}
+#login_header .logo img{width:174px; height:58px; }
+
+#login{width:100%; height:calc(100vh - 130px); background:#eee; padding:100px 0; display:flex; justify-content: center; align-items: center; text-align:center;}
+.logininner h2{font-size:24px; font-weight:700;  }
+.logininner .inputbox{margin:20px 0; }
+.logininner .inputbox input{outline:none; width:300px; font-size:16px; border:1px solid #000; background:transparent; padding:10px; border-radius: 20px;}
+.logininner .inputbox input:focus{border-color:#ff0000;}
+.logininner .findpwbox{text-align:right; }
+.logininner .findpwbox a{font-size:14px; color:#000; }
+.logininner button{width:100%; border-radius: 20px; padding:10px 0; }
+.logininner button.btn-ok{background:#000; color:#fff; font-size:18px; border:0; cursor:pointer; transition: background 0.3s ease; }
+.logininner button.btn-hash{background:transparent; color:#000; font-size:16px; cursor:pointer; }
+.logininner button.btn-hash:hover{color:#ff0000}
+.logininner .join{margin-top:80px; }
+.logininner .join p{font-size:16px; }
+.logininner .join a{color:#000; font-weight:600; margin-left:10px; }
+.logininner .agree{text-align:right; margin-bottom:10px; color:#000;  }
+.logininner button.btn-ok:hover{background:#ff0000; }
+.loginBtn{margin-top:30px; }
+
+/* 팝업 기본 숨김 */
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 99999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+/* 팝업 내용 박스 */
+.popup-content {
+  background: #fff;
+  width: 400px;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+}
+
+/* 닫기 버튼 */
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 예시 스타일 */
+.logininner {
+  width: 300px;
+  margin: 50px auto;
+  text-align: center;
+}
+.inputbox {
+  margin: 10px 0;
+}
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+}
+

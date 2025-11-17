@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>
+    입찰 관리
+  </title>
+  <!-- Favicon -->
+  <link href="/assets/img/brand/favicon.png" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link href="/assets/js/plugins/nucleo/css/nucleo.css" rel="stylesheet" />
+  <link href="/assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link href="/assets/css/argon-dashboard.css?v=1.1.2" rel="stylesheet" />
+</head>
+
+<body class="">
+  <header th:replace="fragments/admin.head :: commonHead('메인 페이지')"></header>
+  <div class="main-content">
+    <!-- Navbar -->
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+      <div class="container-fluid">
+        <!-- Brand -->
+        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">입찰 관리</a>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8"></div>
+    <form>
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <div class="col-12">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">입찰관리</h3>
+                </div>
+                <div class="col-4 text-right">
+                  <button type="button" class="btn btn-light" onclick="location.href='/admin/bid/list'">목록</button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="pl-lg-4">
+                <!-- Address -->
+                <h6 class="heading-small text-muted mb-4">요청내역</h6>
+                <dl class="tb_set">
+		
+			      <div class="dl-item dl-line-right">
+			        <dt>입찰공고번호</dt>
+			        <dd th:text="${item.bid_ntce_no}">R25DA-0002-4857</dd>
+			      </div>
+			
+			      <div class="dl-item dl-line-right">
+			        <dt>계약체결방법</dt>
+			        <dd th:text="${item.cntrct_mthd_nm}">요청</dd>
+			      </div>
+			
+			      <div class="dl-item">
+			        <dt>등록일시</dt>
+			        <dd th:text="${item.rgst_dt}">2025/11/07 10:00</dd>
+			      </div>
+			
+			      <div class="dl-item dl-full">
+			        <dt>요청명</dt>
+			        <dd th:text="${item.ntce_nm}">농기계 운영 데이터 수집 장비 구매</dd>
+			      </div>
+			
+			      <div class="dl-item dl-line-right">
+			        <dt>공고종류</dt>
+			        <dd th:text="${item.ntce_div_nm}">일반견적</dd>
+			      </div>
+			
+			      <div class="dl-item">
+			        <dt>입찰방식</dt>
+			        <dd th:text="${item.bid_methd_nm}">공개</dd>
+			      </div>
+			
+			      <div class="dl-item dl-line-right">
+			        <dt>낙찰방식</dt>
+			        <dd th:text="${item.sucsfbid_mthd_nm}">요청</dd>
+			      </div>
+			
+			    </dl>
+			
+			    <hr/>
+			    <h3>기관 / 담당자 정보</h3>
+			    <dl class="tb_set">
+			      <div class="dl-item dl-full">
+			        <dt>공고 기관명</dt>
+			        <dd th:text="${item.ntce_instt_nm}">주식회사 비바엔에스</dd>
+			      </div>
+			
+			      <div class="dl-item dl-line-right">
+			        <dt>담당자명</dt>
+			        <dd th:text="${item.ofcl_nm}">신민제</dd>
+			      </div>
+			
+			      <div class="dl-item dl-line-right">
+			        <dt>담당자 연락처</dt>
+			        <dd th:text="${item.ofcl_tel_no}">02-566-3110</dd>
+			      </div>
+			
+			      <div class="dl-item">
+			        <dt>담당자 이메일</dt>
+			        <dd th:text="${item.ofcl_email}">shinje@vivasoft.com</dd>
+			      </div>
+			    </dl>
+			
+			    <hr/>
+			    <h3>파일 / URL</h3>
+			    <dl class="tb_set">
+			      <div class="dl-item dl-full" th:if="${item.ntce_spec_doc_nm1 != null and item.ntce_spec_doc_nm1 != ''}">
+			        <dt>공고문1 다운로드</dt>
+			        <dd><a th:href="${item.ntce_spec_doc_url1}" th:text="${item.ntce_spec_doc_nm1}"></a></dd>
+			      </div>
+			
+			      <div class="dl-item dl-full" th:if="${item.ntce_spec_doc_nm2 != null and item.ntce_spec_doc_nm2 != ''}">
+			        <dt>공고문2 다운로드</dt>
+			        <dd><a th:href="${item.ntce_spec_doc_url2}" th:text="${item.ntce_spec_doc_nm2}"></a></dd>
+			      </div>
+			
+			      <div class="dl-item dl-full" th:if="${item.ntce_spec_doc_nm3 != null and item.ntce_spec_doc_nm3 != ''}">
+			        <dt>공고문3 다운로드</dt>
+			        <dd><a th:href="${item.ntce_spec_doc_url3}" th:text="${item.ntce_spec_doc_nm3}"></a></dd>
+			      </div>
+			
+			      <div class="dl-item dl-full" th:if="${item.ntce_spec_doc_nm4 != null and item.ntce_spec_doc_nm4 != ''}">
+			        <dt>공고문4 다운로드</dt>
+			        <dd><a th:href="${item.ntce_spec_doc_url4}" th:text="${item.ntce_spec_doc_nm4}"></a></dd>
+			      </div>
+			
+			      <div class="dl-item dl-full" th:if="${item.ntce_spec_doc_nm5 != null and item.ntce_spec_doc_nm5 != ''}">
+			        <dt>공고문5 다운로드</dt>
+			        <dd><a th:href="${item.ntce_spec_doc_url5}" th:text="${item.ntce_spec_doc_nm5}"></a></dd>
+			      </div>
+			
+			      <div class="dl-item dl-full" th:if="${item.ntce_spec_doc_nm6 != null and item.ntce_spec_doc_nm6 != ''}">
+			        <dt>공고문6 다운로드</dt>
+			        <dd><a th:href="${item.ntce_spec_doc_url6}" th:text="${item.ntce_spec_doc_nm6}"></a></dd>
+			      </div>
+			
+			      <div class="dl-item dl-full" th:if="${item.ntce_spec_doc_nm7 != null and item.ntce_spec_doc_nm7 != ''}">
+			        <dt>공고문7 다운로드</dt>
+			        <dd><a th:href="${item.ntce_spec_doc_url7}" th:text="${item.ntce_spec_doc_nm7}"></a></dd>
+			      </div>
+			
+			      <div class="dl-item dl-full" th:if="${item.ntce_spec_doc_nm8 != null and item.ntce_spec_doc_nm8 != ''}">
+			        <dt>공고문8 다운로드</dt>
+			        <dd><a th:href="${item.ntce_spec_doc_url8}" th:text="${item.ntce_spec_doc_nm8}"></a></dd>
+			      </div>
+			
+			      <div class="dl-item dl-full" th:if="${item.ntce_spec_doc_nm9 != null and item.ntce_spec_doc_nm9 != ''}">
+			        <dt>공고문9 다운로드</dt>
+			        <dd><a th:href="${item.ntce_spec_doc_url9}" th:text="${item.ntce_spec_doc_nm9}"></a></dd>
+			      </div>
+			    </dl>
+			  </div>
+			
+			  <hr/>
+			  <button type="button"
+  				        class="btn btn-danger"
+  				        th:if="${item.bid_ntce_no}"
+  				        th:data-url="@{'/admin/bid/delete/' + ${item.bid_ntce_no}}"
+  				        onclick="deleteItem(this)">
+  				    삭제하기
+  				</button>
+				
+				<script>
+				function deleteItem(btn) {
+				    if (confirm('정말 삭제하시겠습니까?')) {
+				        location.href = btn.dataset.url;
+				    }
+				}
+				</script>
+
+				
+							
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer th:replace="fragments/admin.foot :: commonFoot('푸터 페이지')"></footer>
+</body>
+
+</html>

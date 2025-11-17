@@ -1,0 +1,16 @@
+package com.pager.model;
+
+import lombok.Data;
+
+@Data
+public class Qna {
+	private int id;
+	private String name;
+	private String department;
+	private String company;
+	private String tel;
+	private String email;
+	private String category;
+	private String content;
+	private String regdate;
+}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="commonHead(title)">
+
+<script th:src="@{/assets/js/plugins/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/argon-dashboard.min.js?v=1.1.2}"></script>
+
+<nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
+    <div class="container-fluid">
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <a class="navbar-brand pt-0 logo" href="/admin/main">
+        Pager<span class="up">+</span><span class="adm">Admin</span>
+      </a>
+
+      <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+
+        <!-- TOP 검색 (모바일) -->
+        <div class="navbar-collapse-header d-md-none">
+          <div class="row">
+            <div class="col-6 collapse-brand">
+              <a href="/admin/main">
+                Pager<span class="up">+</span><span class="adm">Admin</span>
+              </a>
+            </div>
+            <div class="col-6 collapse-close">
+              <button class="navbar-toggler" data-toggle="collapse" data-target="#sidenav-collapse-main">
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <ul class="navbar-nav">
+
+          <!-- 회원 관리 -->
+          <li class="nav-item"
+              th:classappend="${currentURI != null and currentURI.startsWith('/admin/member')} ? ' active' : ''">
+            <a class="nav-link" href="/admin/member/list">
+              <i class="ni ni-user-run text-light"></i> 회원 관리
+            </a>
+          </li>
+
+          <!-- 발주 관리 -->
+          <li class="nav-item"
+              th:classappend="${currentURI != null and currentURI.startsWith('/admin/ordering')} ? ' active' : ''">
+            <a class="nav-link" href="/admin/ordering/list">
+              <i class="ni ni-align-left-2 text-light"></i> 발주 관리
+            </a>
+          </li>
+
+          <!-- 입찰 관리 -->
+          <li class="nav-item"
+              th:classappend="${currentURI != null and currentURI.startsWith('/admin/bid')} ? ' active' : ''">
+            <a class="nav-link" href="/admin/bid/list">
+              <i class="ni ni-archive-2 text-light"></i> 입찰 관리
+            </a>
+          </li>
+
+          <!-- 구인 관리 -->
+          <li class="nav-item"
+              th:classappend="${currentURI != null and currentURI.startsWith('/admin/company')} ? ' active' : ''">
+            <a class="nav-link" href="/admin/company/list">
+              <i class="ni ni-air-baloon text-light"></i> 구인 관리
+            </a>
+          </li>
+
+          <!-- 제품 관리 -->
+          <li class="nav-item"
+              th:classappend="${currentURI != null and currentURI.startsWith('/admin/shop')} ? ' active' : ''">
+            <a class="nav-link" href="/admin/shop/list">
+              <i class="ni ni-shop text-light"></i> 제품 관리
+            </a>
+          </li>
+
+          <!-- 뉴스 관리 -->
+          <li class="nav-item"
+              th:classappend="${currentURI != null and currentURI.startsWith('/admin/news')} ? ' active' : ''">
+            <a class="nav-link" href="/admin/news/list">
+              <i class="ni ni-image text-light"></i> 뉴스/인사이드 관리
+            </a>
+          </li>
+
+          <!-- 문의 관리 -->
+          <li class="nav-item"
+              th:classappend="${currentURI != null and currentURI.startsWith('/admin/qna')} ? ' active' : ''">
+            <a class="nav-link" href="/admin/qna/list">
+              <i class="ni ni-send text-light"></i> 문의 관리
+            </a>
+          </li>
+
+        </ul>
+
+        <hr class="my-3">
+
+        <ul class="navbar-nav">
+
+          <!-- 수동 발주 -->
+          <li class="nav-item"
+              th:classappend="${currentURI != null and currentURI == '/ordering/sync'} ? ' active' : ''">
+            <a class="nav-link" href="/ordering/sync">
+              <i class="ni ni-air-baloon text-light"></i> 수동 발주
+            </a>
+          </li>
+
+          <!-- 수동 입찰 -->
+          <li class="nav-item"
+              th:classappend="${currentURI != null and currentURI == '/bid/sync'} ? ' active' : ''">
+            <a class="nav-link" href="/bid/sync">
+              <i class="ni ni-air-baloon text-light"></i> 수동 입찰
+            </a>
+          </li>
+
+        </ul>
+
+        <hr class="my-3">
+
+        <h6 class="navbar-heading text-muted">Documentation</h6>
+
+        <ul class="navbar-nav mb-md-3">
+
+          <!-- 관리자 수정 -->
+          <li class="nav-item"
+              th:classappend="${currentURI != null and currentURI.startsWith('/admin/main')} ? ' active' : ''">
+            <a class="nav-link" href="/admin/main">
+              <i class="ni ni-settings-gear-65 text-blue"></i> 관리자 수정
+            </a>
+          </li>
+
+          <!-- 로그아웃 -->
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">
+              <i class="ni ni-button-power text-red"></i> 로그아웃
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+</nav>
+
+</body>
+</html>
