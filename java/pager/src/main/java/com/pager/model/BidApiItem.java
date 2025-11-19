@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BidApiItem {
 
-    // ✅ 기본 정보
+    // 기본 정보
     private String bidNtceNo;        // 입찰공고번호
     private String ntceNm;           // 요청명(공고명)
     private String cntrctMthdNm;     // 계약체결방법
@@ -18,13 +18,13 @@ public class BidApiItem {
     private String opengPlce;        // 개찰장소
     private String orderPlanUntyNo;  // 연계 사업 번호 (있을 경우)
     
-    // ✅ 기관 / 담당자 정보
+    // 기관 / 담당자 정보
     private String ntceInsttNm;      // 공고 기관명
     private String ofclNm;           // 담당자명
     private String ofclTelNo;        // 담당자 연락처
     private String ofclEmail;        // 담당자 이메일
 
-    // ✅ 공고문 파일 다운로드 URL 및 이름 (최대 9개)
+    // 공고문 파일 다운로드 URL 및 이름 (최대 9개)
     private String ntceSpecDocUrl1;
     private String ntceSpecDocNm1;
     private String ntceSpecDocUrl2;

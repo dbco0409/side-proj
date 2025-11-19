@@ -26,11 +26,10 @@ public class QuoteService {
 
     private static final String SERVICE_URL =
         "https://apis.data.go.kr/1230000/ao/OrderPlanSttusService/getOrderPlanSttusListServcPPSSrch";
-    private static final String SERVICE_KEY = "b6QUXFo4NJdzDjrwkgiDQAoVJIhjHLU9NplomktTDExQr8f5t153FdoHN%2FhWgBpgNcbIWhNsL%2FfJSnFqNZGdvg%3D%3D";
+    private static final String SERVICE_KEY = "";
     private static final DateTimeFormatter DT_FMT = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
 
-    // ✅ 하루에 한 번 실행 (스케줄러로 등록 가능)
-    @Scheduled(cron = "0 0 9 * * *") // 매일 새벽 2시
+    @Scheduled(cron = "0 0 2 * * *") 
     public void syncOpenApiData() {
         List<String> keywords = List.of("홈페이지", "웹", "앱", "web", "app", "모바일","사이트","프론트엔드","백엔드","퍼블리싱");
 
@@ -39,7 +38,7 @@ public class QuoteService {
             items.forEach(quoteMapper::upsert);
         }
 
-        System.out.println("[QuoteSync] 데이터 동기화 완료: " + new Date());
+        System.out.println("데이터 동기화 완료: " + new Date());
     }
     
     private List<Map<String, Object>> fetchOpenApiData(String bizNm) {
@@ -61,7 +60,7 @@ public class QuoteService {
             JsonNode itemsNode = root.path("response").path("body").path("items");
 
             if (itemsNode.isMissingNode() || itemsNode.isNull()) {
-                System.out.println("⚠️ API 응답에 items 없음 (" + bizNm + ")");
+                System.out.println("API 응답에 items 없음 (" + bizNm + ")");
                 return resultList;
             }
 
@@ -80,7 +79,7 @@ public class QuoteService {
         return resultList;
     }
 
-    // ✅ JSON → Map 변환 (실제 응답 필드 반영)
+    // JSON → Map 변환 (실제 응답 필드 반영)
     private Map<String, Object> parseItem(JsonNode item) {
         Map<String, Object> map = new HashMap<>();
 
@@ -97,7 +96,7 @@ public class QuoteService {
         map.put("nticeDt", item.path("nticeDt").asText());
         map.put("totlmngInsttNm", item.path("totlmngInsttNm").asText());
 
-        // ✅ 금액 변환
+        // 금액 변환
         String amtStr = item.path("sumOrderAmt").asText();
         try {
             map.put("sumOrderAmt", Long.parseLong(amtStr.replaceAll("[^0-9]", "")));
@@ -109,12 +108,12 @@ public class QuoteService {
     }
 
 
-    // ✅ 사용자 조회용
+    // 사용자 조회용
     public List<Map<String, Object>> getAllQuotes() {
         return quoteMapper.selectAll();
     }
 
-    // ✅ 상세 조회
+    // 상세 조회
     public Map<String, Object> getQuoteDetail(String orderPlanUntyNo) {
         return quoteMapper.findByOrderPlanUntyNo(orderPlanUntyNo);
     }

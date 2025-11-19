@@ -51,7 +51,6 @@ public class UserController {
         }
 
 
-        // 세션 저장
         session.setAttribute("loginUser", user);
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
@@ -157,7 +156,6 @@ public class UserController {
     	User loginUser = (User) session.getAttribute("loginUser");
         if (loginUser != null) return "redirect:/mypage";
         
-        // ① URL 파라미터로 받은 값 우선
         if (mbId != null) {
             model.addAttribute("mbId", mbId);
             model.addAttribute("mbName", mbName);
@@ -244,7 +242,6 @@ public class UserController {
             return result;
         }
 
-        // DB에서 사용자 조회
         User user = userService.getByMbId(mbId);
         
         if (!userService.checkPassword(mbPassword, user.getMbPassword())) {
@@ -253,21 +250,18 @@ public class UserController {
             return result;
         }
 
-        // 새 비밀번호 확인
         if (!mbPasswordNew.equals(mbPasswordRe)) {
             result.put("success", false);
             result.put("message", "새 비밀번호가 일치하지 않습니다.");
             return result;
         }
 
-        // --- DB 업데이트 ---
         user.setMbId(mbId);
         user.setMbName(mbName);
         user.setMbPassword(userService.encodePassword(mbPasswordNew)); // 암호화 필요
         userService.updateUser(user);
         userService.updatePassword(user);
 
-        // 세션 정보 갱신
         session.setAttribute("loginUser", user);
 
         model.addAttribute("message", "회원정보가 수정되었습니다.");
@@ -291,10 +285,8 @@ public class UserController {
         }
 
         try {
-            // ✅ 2. 회원 정보 삭제
             userService.deleteUserByMbId(loginUser.getMbId());
 
-            // ✅ 3. 세션 초기화
             session.invalidate();
 
             result.put("success", true);

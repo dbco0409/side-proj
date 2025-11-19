@@ -4,12 +4,11 @@ import axios from "axios";
 import "../css/style.css";
 
 const BidView = () => {
-  const { id } = useParams(); // ✅ URL /bid_view/:id
+  const { id } = useParams(); 
   const navigate = useNavigate();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ 데이터 불러오기
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_BASE_URL}/bid/bid_view/${id}`)
@@ -29,7 +28,6 @@ const BidView = () => {
       .finally(() => setLoading(false));
   }, [id, navigate]);
 
-  // ✅ 날짜 포맷
   const formatDate = (dateString) => {
     if (!dateString) return "-";
     const d = new Date(dateString);
@@ -41,16 +39,14 @@ const BidView = () => {
     return `${yy}.${mm}.${dd} ${hh}:${mi}`;
   };
 
-  // ✅ 인쇄 버튼
   const handlePrint = () => {
     window.print();
   };
 
-  // ✅ 로딩 및 에러 처리
   if (loading) return <div style={{ textAlign: "center", padding: "40px" }}>불러오는 중...</div>;
   if (!item) return <div style={{ textAlign: "center", padding: "40px" }}>해당 데이터를 찾을 수 없습니다.</div>;
 
-  // ✅ 공고문 파일 목록 자동 생성 (최대 9개)
+  // 공고문 파일 목록 자동 생성 (최대 9개)
   const fileList = [];
   for (let i = 1; i <= 9; i++) {
     const nameKey = `ntce_spec_doc_nm${i}`;

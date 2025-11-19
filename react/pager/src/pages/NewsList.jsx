@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../css/style.css"; // 필요시 추가
+import "../css/style.css"; 
 
 const NewsList = () => {
   const [news, setNews] = useState([]);
 
-  // ✅ 데이터 불러오기
+
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/news/newsList`)
       .then((res) => {
@@ -18,8 +18,7 @@ const NewsList = () => {
         setNews([]);
       });
   }, []);
-
-  // ✅ 날짜 포맷 (yy.MM.dd)
+  
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const d = new Date(dateString);

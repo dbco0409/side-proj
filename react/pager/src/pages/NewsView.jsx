@@ -4,12 +4,11 @@ import axios from "axios";
 import "../css/style.css";
 
 const NewsView = () => {
-  const { id } = useParams(); // ✅ URL의 /news_view/:id 가져오기
+  const { id } = useParams();
   const navigate = useNavigate();
   const [news, setNews] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ 데이터 불러오기
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/news/newsView/${id}`)
       .then((res) => {
@@ -28,7 +27,6 @@ const NewsView = () => {
       .finally(() => setLoading(false));
   }, [id, navigate]);
 
-  // ✅ 날짜 포맷
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const d = new Date(dateString);

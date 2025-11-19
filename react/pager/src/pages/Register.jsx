@@ -12,9 +12,8 @@ const Register = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [showAgree, setShowAgree] = useState(false); // 약관 팝업 제어
+  const [showAgree, setShowAgree] = useState(false);
 
-  // ✅ 입력값 변경 핸들러
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({
@@ -23,7 +22,6 @@ const Register = () => {
     }));
   };
 
-  // ✅ 회원가입 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
 

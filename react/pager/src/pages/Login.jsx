@@ -6,7 +6,6 @@ import "../css/login.css";
 const Login = () => {
   const navigate = useNavigate();
 
-  // ✅ 입력 상태 관리
   const [form, setForm] = useState({
     mbId: "",
     mbPassword: "",
@@ -14,13 +13,11 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // ✅ 입력값 변경 핸들러
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ 로그인 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -36,7 +33,7 @@ const Login = () => {
         new URLSearchParams(form),
         {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          withCredentials: true, // ✅ 세션 쿠키 유지용 (Spring 세션 공유)
+          withCredentials: true, // 세션 쿠키 유지용 (Spring 세션 공유)
         }
       );
 

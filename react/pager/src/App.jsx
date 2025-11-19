@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./common/Layout";
 import Home from "./pages/Home";    
-import Orderlist from "./pages/Orderlist";  
+import Orderlist from "./pages/OrderList";  
 import OrderView from "./pages/OrderView";  
 import Bidlist from "./pages/Bidlist";
 import BidView from "./pages/BidView";
 import ComList from "./pages/ComList";
 import ComView from "./pages/ComView";
-import ShopList from "./pages/shopList";
+import ShopList from "./pages/ShopList";
 import ShopView from "./pages/ShopView";
 import NewsList from "./pages/NewsList";
 import NewsView from "./pages/NewsView";

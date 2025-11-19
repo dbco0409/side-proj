@@ -3,7 +3,6 @@ import axios from "axios";
 import "../css/style.css";
 
 const ShopList = () => {
-  // ✅ 상태 정의
   const [category1, setCategory1] = useState("");
   const [category2, setCategory2] = useState("");
 
@@ -15,7 +14,6 @@ const ShopList = () => {
   const minGap = 10000;
   const maxValue = 500000;
 
-  // ✅ 데이터 로드 함수 (필터값 포함)
   const loadShopList = async () => {
   try {
     const formData = new FormData();
@@ -39,12 +37,10 @@ const ShopList = () => {
 };
 
 
-  // ✅ 첫 로드 및 값 변경 시 API 요청
   useEffect(() => {
     loadShopList();
   }, [category1, category2, minPrice, maxPrice]);
 
-  // ✅ 가격 슬라이더 조정
   const handleLeftChange = (e) => {
     let left = parseInt(e.target.value);
     if (maxPrice - left < minGap) left = maxPrice - minGap;
@@ -57,7 +53,6 @@ const ShopList = () => {
     setMaxPrice(right);
   };
 
-  // ✅ 검색 실행
   const handleSearch = (e) => {
     e.preventDefault();
     loadShopList();

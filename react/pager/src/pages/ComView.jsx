@@ -4,18 +4,17 @@ import axios from "axios";
 import "../css/style.css";
 
 const CompanyView = () => {
-  const { id } = useParams(); // ✅ URL의 /company_view/:id 가져오기
+  const { id } = useParams(); 
   const navigate = useNavigate();
   const [company, setCompany] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ 데이터 불러오기
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_BASE_URL}/company/company_view/${id}`)
       .then((res) => {
         if (res.data.success) {
-          setCompany(res.data.shop); // ⚠️ 백엔드에서 key가 "shop"으로 되어있음
+          setCompany(res.data.shop); 
         } else {
           alert(res.data.message || "데이터를 불러올 수 없습니다.");
           navigate("/company");
@@ -29,7 +28,6 @@ const CompanyView = () => {
       .finally(() => setLoading(false));
   }, [id, navigate]);
 
-  // ✅ 날짜 포맷
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const d = new Date(dateString);
@@ -41,12 +39,10 @@ const CompanyView = () => {
     return `${yy}.${mm}.${dd} ${hh}:${mi}`;
   };
 
-  // ✅ 인쇄 기능
   const handlePrint = () => {
     window.print();
   };
 
-  // ✅ 로딩 / 에러 처리
   if (loading) {
     return <div style={{ textAlign: "center", padding: "40px" }}>불러오는 중...</div>;
   }
@@ -55,7 +51,6 @@ const CompanyView = () => {
     return <div style={{ textAlign: "center", padding: "40px" }}>데이터를 찾을 수 없습니다.</div>;
   }
 
-  // ✅ 페이지 렌더링
   return (
     <>
       <section id="sub_top">

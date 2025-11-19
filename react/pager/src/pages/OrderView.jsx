@@ -4,12 +4,11 @@ import axios from "axios";
 import "../css/style.css";
 
 const OrderingView = () => {
-  const { id } = useParams(); // ✅ URL의 /ordering_view/:id
+  const { id } = useParams();
   const navigate = useNavigate();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ 데이터 불러오기
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_BASE_URL}/ordering/ordering_view/${id}`)
@@ -29,24 +28,20 @@ const OrderingView = () => {
       .finally(() => setLoading(false));
   }, [id, navigate]);
 
-  // ✅ 금액 포맷
   const formatNumber = (num) => {
     if (num === null || num === undefined) return "-";
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  // ✅ 인쇄 버튼
   const handlePrint = () => {
     window.print();
   };
 
-  // ✅ 로딩 및 에러 처리
   if (loading)
     return <div style={{ textAlign: "center", padding: "40px" }}>불러오는 중...</div>;
   if (!item)
     return <div style={{ textAlign: "center", padding: "40px" }}>해당 데이터를 찾을 수 없습니다.</div>;
 
-  // ✅ 페이지 렌더링
   return (
     <>
       <section id="sub_top">

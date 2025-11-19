@@ -9,7 +9,7 @@ import com.pager.model.User;
 @Mapper
 public interface UserMapper {
 
-    // ✅ 1. 이메일(ID)로 회원 조회
+    // 1. 이메일(ID)로 회원 조회
     @Select("SELECT * FROM `user` WHERE mbId = #{mbId} AND mbName = #{mbName} AND hashYN != 'Y'")
     User findByMbId(String mbId, String mbName); 
     
@@ -19,14 +19,14 @@ public interface UserMapper {
     @Select("SELECT * FROM `user` ")
     List<User> getUser(); 
 
-    // ✅ 2. 회원가입
+    // 2. 회원가입
     @Insert("""
         INSERT INTO `user` (mbId, mbPassword, mbName, joinDate, recentDate, hashYN)
         VALUES (#{mbId}, #{mbPassword}, #{mbName}, NOW(), NOW(), 'N')
     """)
     void insertUser(User user); 
 
-    // ✅ 3. 회원 정보 수정 (비밀번호 제외)
+    // 3. 회원 정보 수정 (비밀번호 제외)
     @Update("""
         UPDATE `user`
         SET mbName = #{mbName},
@@ -35,7 +35,7 @@ public interface UserMapper {
     """)
     void updateUser(User user);
 
-    // ✅ 4. 비밀번호 수정
+    // 4. 비밀번호 수정
     @Update("""
         UPDATE `user`
         SET mbPassword = #{mbPassword},
@@ -44,7 +44,7 @@ public interface UserMapper {
     """)
     void updatePassword(User user);
 
-    // ✅ 5. 회원탈퇴 처리 (hashYN를 'Y'로 변경)
+    // 5. 회원탈퇴 처리 (hashYN를 'Y'로 변경)
     @Update("""
         UPDATE `user`
         SET hashYN = 'Y',

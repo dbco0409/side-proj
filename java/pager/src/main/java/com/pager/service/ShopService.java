@@ -24,19 +24,19 @@ public class ShopService {
 
     private final ShopMapper shopMapper;
 
-    // ✅ 파일 저장 경로 (실제 경로에 맞게 수정하세요)
+    // 파일 저장 경로 (실제 경로에 맞게 수정하세요)
     private static final String UPLOAD_DIR = "C:/upload/shop/";
 
-    // ✅ 1. 상품 등록
+    // 1. 상품 등록
     public void insertShop(Shop shop, MultipartFile thumbFile, List<MultipartFile> editorFiles) {
         try {
-            // 🖼️ 썸네일 파일 저장
+            // 🖼썸네일 파일 저장
             if (thumbFile != null && !thumbFile.isEmpty()) {
                 String savedThumb = saveFile(thumbFile, "thumb");
                 shop.setThumb(savedThumb);
             }
 
-            // 📝 에디터 파일 저장 (선택)
+            // 에디터 파일 저장 (선택)
             if (editorFiles != null && !editorFiles.isEmpty()) {
                 StringBuilder contentImages = new StringBuilder(shop.getContent() != null ? shop.getContent() : "");
                 for (MultipartFile file : editorFiles) {
@@ -46,7 +46,7 @@ public class ShopService {
                 shop.setContent(contentImages.toString());
             }
 
-            // 💾 DB 등록
+            // DB 등록
             shopMapper.insertShop(shop);
 
         } catch (IOException e) {
@@ -54,7 +54,7 @@ public class ShopService {
         }
     }
 
-    // ✅ 2. 상품 수정
+    // 2. 상품 수정
     public void updateShop(Shop shop, MultipartFile thumbFile, List<MultipartFile> editorFiles) {
         try {
             // 썸네일 변경 시
@@ -94,30 +94,30 @@ public class ShopService {
     }
 
 
-    // ✅ 3. 상품 삭제
+    // 3. 상품 삭제
     public void deleteShop(Long id) {
         shopMapper.deleteShop(id);
     }
 
-    // ✅ 4. 단일 상품 조회
+    // 4. 단일 상품 조회
     @Transactional(readOnly = true)
     public Shop getShop(Long id) {
         return shopMapper.getShop(id);
     }
     
-    // ✅ 5. 메인 상품 목록
+    // 5. 메인 상품 목록
     @Transactional(readOnly = true)
     public List<Shop> getShopHotList() {
         return shopMapper.getShopHotList();
     }
     
-    // ✅ 5. 전체 상품 목록
+    // 5. 전체 상품 목록
     @Transactional(readOnly = true)
     public List<Shop> getShopList() {
         return shopMapper.getShopList();
     }
     
-    // ✅ 6. 조건 검색 (카테고리 + 가격 필터)
+    // 6. 조건 검색 (카테고리 + 가격 필터)
     @Transactional(readOnly = true)
     public List<Shop> filterShops(String category1, String category2,
             int minPrice, int maxPrice, String search_txt) {
@@ -137,7 +137,7 @@ public class ShopService {
 	}
 
 
-    // ✅ 파일 저장 로직
+    // 파일 저장 로직
     private String saveFile(MultipartFile file, String type) throws IOException {
         String dir = UPLOAD_DIR + type + "/";
         Path uploadPath = Paths.get(dir);

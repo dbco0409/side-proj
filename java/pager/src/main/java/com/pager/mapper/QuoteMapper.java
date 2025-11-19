@@ -42,11 +42,11 @@ public interface QuoteMapper {
     @Select("SELECT * FROM quote_api_data WHERE order_plan_unty_no = #{orderPlanUntyNo}")
     Map<String, Object> findByOrderPlanUntyNo(String orderPlanUntyNo);
 
-    // ✅ 4. 견적요청 단건 조회
+    // 견적요청 단건 조회
     @Select("SELECT * FROM quote_api_data WHERE order_plan_unty_no = #{orderPlanUntyNo}")
     Quote getQuote(String orderPlanUntyNo);
 
-    // ✅ 5. 견적요청 전체 목록 조회
+    // 견적요청 전체 목록 조회
     @Select("SELECT * FROM quote_api_data ORDER BY ntice_dt DESC")
     List<Quote> allQuoteList();
     

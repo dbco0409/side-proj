@@ -85,7 +85,6 @@ const OrderList = () => {
         width: "120px",
         center: true,
         cell: (row) => {
-        // ✅ 날짜 포맷 (YYYY-MM-DD)
         const formatted = row.startTime ? dayjs(row.startTime).format("YYYY-MM-DD") : "-";
         return <span>{formatted}</span>;
         },
@@ -95,7 +94,6 @@ const OrderList = () => {
         width: "120px",
         center: true,
         cell: (row) => {
-        // ✅ 날짜 포맷 (YYYY-MM-DD)
         const formatted = row.endTime ? dayjs(row.endTime).format("YYYY-MM-DD") : "-";
         return <span>{formatted}</span>;
         },

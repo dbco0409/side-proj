@@ -20,13 +20,13 @@ import com.pager.service.CompanyService;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller  // ✅ RestController → Controller 로 변경
+@Controller  // RestController → Controller 로 변경
 @RequestMapping("/company")
 @RequiredArgsConstructor
 public class CompanyController {
 private final CompanyService companyService;
 
-    // ✅ 단일 견적 조회
+    // 단일 견적 조회
     @GetMapping("/view/{id}")
     public String getCompany(@PathVariable Long id, Model model) {
     	Company company = companyService.getCompany(id);
@@ -38,7 +38,7 @@ private final CompanyService companyService;
     public String list(Model model) {
         List<Company> companys = companyService.allCompanyList();
         model.addAttribute("companys", companys);
-        return "company"; // ✅ quote.html 렌더링
+        return "company"; // quote.html 렌더링
     }
     
     @GetMapping("/company_list")
@@ -49,7 +49,7 @@ private final CompanyService companyService;
         Map<String, Object> result = new HashMap<>();
         result.put("items", items);
         result.put("total", items.size());
-        return result; // ✅ JSON 형태로 React에 전달됨
+        return result; // JSON 형태로 React에 전달됨
     }
     
     @GetMapping("/company_view/{id}")

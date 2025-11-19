@@ -9,7 +9,7 @@ import com.pager.model.Shop;
 @Mapper
 public interface ShopMapper {
 
-    // ✅ 1. 상품 등록
+    // 1. 상품 등록
     @Insert("""
         INSERT INTO shop 
             (title, price, delivery_price, total_price, category1, category2, company, content, thumb, created_at, url)
@@ -18,7 +18,7 @@ public interface ShopMapper {
     """)
     void insertShop(Shop shop);
 
-    // ✅ 2. 상품 수정
+    // 2. 상품 수정
     @Update("""
         UPDATE shop
         SET title = #{title},
@@ -36,7 +36,7 @@ public interface ShopMapper {
     """)
     void updateShop(Shop shop);
 
-    // ✅ 3. 조건 필터 검색 (카테고리 + 가격)
+    // 3. 조건 필터 검색 (카테고리 + 가격)
     @Select("""
 	    SELECT * FROM shop
 	    WHERE price BETWEEN #{min} AND #{max}
@@ -70,15 +70,15 @@ public interface ShopMapper {
 
 
 
-    // ✅ 4. 상품 삭제
+    // 4. 상품 삭제
     @Delete("DELETE FROM shop WHERE id = #{id}")
     void deleteShop(Long id);
 
-    // ✅ 5. 상품 단건 조회
+    // 5. 상품 단건 조회
     @Select("SELECT * FROM shop WHERE id = #{id}")
     Shop getShop(Long id);
 
-    // ✅ 6. 전체 목록
+    // 6. 전체 목록
     @Select("SELECT * FROM shop ORDER BY hot desc, id DESC")
     List<Shop> getShopList();
     

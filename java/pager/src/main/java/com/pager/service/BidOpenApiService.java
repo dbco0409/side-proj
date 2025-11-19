@@ -28,13 +28,13 @@ public class BidOpenApiService {
 
     private static final String SERVICE_URL =
         "https://apis.data.go.kr/1230000/ao/PrvtBidNtceService/getPrvtBidPblancListInfoServcPPSSrch";
-    private static final String SERVICE_KEY = "b6QUXFo4NJdzDjrwkgiDQAoVJIhjHLU9NplomktTDExQr8f5t153FdoHN%2FhWgBpgNcbIWhNsL%2FfJSnFqNZGdvg%3D%3D"; // 🔑 실제 API Key 필요
+    private static final String SERVICE_KEY = ""; 
     private static final DateTimeFormatter DT_FMT = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
 
     /**
-     * ✅ 매일 새벽 2시에 자동으로 API 데이터를 DB에 저장 (스케줄링)
+     * 매일 새벽 2시에 자동으로 API 데이터를 DB에 저장 (스케줄링)
      */
-    @Scheduled(cron = "0 0 9 * * *")
+    @Scheduled(cron = "0 0 2 * * *")
     public void syncBidDataDaily() {
         System.out.println("🔄 [BidSync] 입찰정보 동기화 시작 " + new Date());
         List<String> keywords = List.of("웹", "홈페이지", "앱", "web", "모바일","사이트", "게임","프론트엔드","백엔드","java","php","퍼블리싱");
@@ -66,26 +66,17 @@ public class BidOpenApiService {
             }
         }
 
-        System.out.println("✅ [BidSync] 입찰정보 DB 저장 완료 (" + new Date() + ")");
+        System.out.println("입찰정보 DB 저장 완료 (" + new Date() + ")");
     }
 
-    /**
-     * ✅ DB에서 모든 입찰 데이터 조회
-     */
     public List<Map<String, Object>> getAllBids() {
         return bidMapper.selectAll();
     }
 
-    /**
-     * ✅ DB에서 단건 조회
-     */
     public Map<String, Object> getBidDetail(String bidNtceNo) {
         return bidMapper.selectByBidNo(bidNtceNo);
     }
 
-    /**
-     * ✅ API 호출 (기존 로직 재사용)
-     */
     private List<BidApiItem> fetchByKeyword(String keyword, int pageNo, int numOfRows) {
         List<BidApiItem> list = new ArrayList<>();
         try {
@@ -124,7 +115,7 @@ public class BidOpenApiService {
     private BidApiItem mapItem(JsonNode n) {
         BidApiItem it = new BidApiItem();
 
-        // ✅ 기본 정보
+        // 기본 정보
         it.setBidNtceNo(n.path("bidNtceNo").asText(""));        // 입찰공고번호
         it.setNtceNm(n.path("ntceNm").asText(""));              // 요청명(공고명)
         it.setCntrctMthdNm(n.path("cntrctMthdNm").asText(""));  // 계약체결방법
@@ -137,13 +128,13 @@ public class BidOpenApiService {
         it.setOpengPlce(n.path("opengPlce").asText(""));        // 개찰장소
         it.setOrderPlanUntyNo(n.path("orderPlanUntyNo").asText("")); // 사업계획번호
 
-        // ✅ 기관 / 담당자 정보
+        // 기관 / 담당자 정보
         it.setNtceInsttNm(n.path("ntceInsttNm").asText(""));    // 공고기관명
         it.setOfclNm(n.path("ofclNm").asText(""));              // 담당자명
         it.setOfclTelNo(n.path("ofclTelNo").asText(""));        // 담당자연락처
         it.setOfclEmail(n.path("ofclEmail").asText(""));        // 담당자이메일
 
-        // ✅ 공고문 파일 (최대 9개)
+        // 공고문 파일 (최대 9개)
         for (int i = 1; i <= 9; i++) {
             String urlKey = "ntceSpecDocUrl" + i;
             String nmKey = "ntceSpecDocNm" + i;
@@ -158,7 +149,7 @@ public class BidOpenApiService {
             } catch (Exception ignored) {}
         }
 
-        // ✅ 기타 필드 (API에 따라 존재할 수도 있음)
+        // 기타 필드 (API에 따라 존재할 수도 있음)
         it.setNtceKindNm(n.path("ntceKindNm").asText(""));
         it.setRgstTyNm(n.path("rgstTyNm").asText(""));
         it.setBidNtceDt(n.path("bidNtceDt").asText(""));

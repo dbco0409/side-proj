@@ -4,12 +4,11 @@ import axios from "axios";
 import "../css/style.css";
 
 const ShopView = () => {
-  const { id } = useParams(); // ✅ URL의 /shop_view/:id 가져오기
+  const { id } = useParams(); 
   const navigate = useNavigate();
   const [shop, setShop] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ 데이터 불러오기
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/shop/shop_view/${id}`)
       .then((res) => {
@@ -28,20 +27,16 @@ const ShopView = () => {
       .finally(() => setLoading(false));
   }, [id, navigate]);
 
-  // ✅ 로딩 중 표시
   if (loading) {
     return <div style={{ textAlign: "center", padding: "40px" }}>불러오는 중...</div>;
   }
 
-  // ✅ 상품이 없을 경우
   if (!shop) {
     return <div style={{ textAlign: "center", padding: "40px" }}>상품을 찾을 수 없습니다.</div>;
   }
 
-  // ✅ 가격 포맷
   const formatPrice = (price) => price?.toLocaleString() || "0";
 
-  // ✅ 바로 구매 클릭 핸들러
   const handleBuy = () => {
     if (shop.url) {
       window.open(shop.url, "_blank");

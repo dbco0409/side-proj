@@ -21,7 +21,7 @@ public class IndexController {
     private final QnaService qnaService;
     private final ShopService shopService;
 
-    /** ✅ 1. GET "/" — index.html 렌더링 */
+    /** 1. GET "/" — index.html 렌더링 */
     @GetMapping("/")
     public String showIndex(Model model) {
     	List<Shop> shops = shopService.getShopList();
@@ -29,7 +29,7 @@ public class IndexController {
         return "index"; 
     }
 
-    /** ✅ 2. POST "/" — AJAX JSON 처리 */
+    /** 2. POST "/" — AJAX JSON 처리 */
     @PostMapping("/")
     @ResponseBody
     public Map<String, Object> submitQna(@RequestBody Qna qna) {

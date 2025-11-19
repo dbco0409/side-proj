@@ -61,7 +61,7 @@ const OrderList = () => {
         width: "150px",
         center: true,
         cell: (row) => {
-        // ✅ 날짜 포맷 (YYYY-MM-DD)
+        // 날짜 포맷 (YYYY-MM-DD)
         const formatted = row.reg_date ? dayjs(row.reg_date).format("YYYY-MM-DD") : "-";
         return <span>{formatted}</span>;
         },

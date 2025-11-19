@@ -28,10 +28,10 @@ public class SecurityConfig {
 	        .csrf(AbstractHttpConfigurer::disable)
 
 	        .authorizeHttpRequests(auth -> auth
-	            // 🔥 1) 관리자 페이지는 인증 필요
+	            // 1) 관리자 페이지는 인증 필요
 	            .requestMatchers("/admin/**").authenticated()
 
-	            // 🔥 2) 그 외 페이지는 모두 허용
+	            // 2) 그 외 페이지는 모두 허용
 	            .anyRequest().permitAll()
 	        );
 

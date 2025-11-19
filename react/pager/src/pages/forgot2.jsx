@@ -7,7 +7,6 @@ const ForgetPasswordReset = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ URL 파라미터 또는 state로 전달된 사용자 정보 받기
   const searchParams = new URLSearchParams(location.search);
   const mbId = searchParams.get("mbId") || location.state?.mbId || "";
   const mbName = searchParams.get("mbName") || location.state?.mbName || "";
@@ -18,13 +17,12 @@ const ForgetPasswordReset = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  // ✅ 입력 핸들러
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ 비밀번호 변경 요청
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 

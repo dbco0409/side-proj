@@ -89,7 +89,6 @@ public class AdminController {
 	        return result;
 	    }
 
-	    // DB 업데이트
 	    user.setMbId(mbId);
 	    user.setMbName(mbName);
 	    user.setMbPassword(userService.encodePassword(mbPassword));
@@ -224,7 +223,7 @@ public class AdminController {
         return "redirect:/admin/shop/list";
     }
 
-    // ✅ 3. 상품 수정 페이지 이동
+    // 3. 상품 수정 페이지 이동
     @GetMapping("/shop/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
         Shop shop = shopService.getShop(id);
@@ -232,7 +231,7 @@ public class AdminController {
         return "admin/product_view"; // → templates/shop_edit.html
     }
 
-    // ✅ 4. 상품 수정 처리
+    // 4. 상품 수정 처리
     @PostMapping("/shop/edit/{id}")
     public String editShop(
             @PathVariable Long id,
@@ -243,19 +242,18 @@ public class AdminController {
 
         shop.setId(id);
 
-        // ✅ 썸네일 삭제 요청이 있는 경우 처리
+        // 썸네일 삭제 요청이 있는 경우 처리
         if ("true".equals(deleteThumb)) {
             shopService.deleteThumb(shop);
         }
 
-        // ✅ 수정 로직 실행
         shopService.updateShop(shop, thumbFile, editorFiles);
 
         return "redirect:/admin/shop/edit/" + id;
     }
 
 
-    // ✅ 6. 상품 목록 보기
+    // 6. 상품 목록 보기
     @GetMapping("/shop/list")
     public String listShop(Model model) {
         List<Shop> shops = shopService.getShopList();
@@ -263,7 +261,7 @@ public class AdminController {
         return "admin/product_list"; // → templates/shop_list.html
     }
     
- // ✅ 7. 상품 삭제
+ // 7. 상품 삭제
     @GetMapping("/shop/delete/{id}")
     public String deleteShop(@PathVariable Long id) {
         shopService.deleteShop(id);
@@ -331,7 +329,7 @@ public class AdminController {
         return "redirect:/admin/company/list"; // 등록 후 리스트 페이지로 이동
     }
 
-    // ✅ 단일 견적 조회
+    // 단일 견적 조회
     @GetMapping("/company/edit/{id}")
     public String getCompany(@PathVariable Long id, Model model) {
     	Company company = companyService.getCompany(id);
@@ -352,7 +350,7 @@ public class AdminController {
         return "admin/qna"; 
     }
 
-    // ✅ 단일 견적 조회
+    // 단일 견적 조회
     @GetMapping("/qna/view/{id}")
     public String getQna(@PathVariable Long id, Model model) {
     	Qna qna = qnaService.getQna(id);
@@ -391,17 +389,14 @@ public class AdminController {
 
     	Map<String, Object> result = new HashMap<>();
 
-        // DB에서 사용자 조회
         User user = userService.getByMbId(mbId);
 
-        // 새 비밀번호 확인
         if (!mbPassword.equals(mbPasswordRe)) {
             result.put("success", false);
             result.put("message", "새 비밀번호가 일치하지 않습니다.");
             return result;
         }
 
-        // --- DB 업데이트 ---
         user.setMbId(mbId);
         user.setMbName(mbName);
         user.setMbPassword(userService.encodePassword(mbPassword)); // 암호화 필요
@@ -460,7 +455,7 @@ public class AdminController {
         User user = userService.getByMbId(mbId);
 
         try {
-            // ✅ 2. 회원 정보 삭제
+            // 2. 회원 정보 삭제
             userService.deleteUserByMbId(user.getMbId());
             result.put("success", true);
         } catch (Exception e) {

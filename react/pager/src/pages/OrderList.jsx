@@ -58,7 +58,6 @@ const OrderList = () => {
     selector: (row) => row.ntice_dt,
     width: "150px",
     cell: (row) => {
-            // ✅ 날짜 포맷 (YYYY-MM-DD)
             const formatted = row.ntice_dt ? dayjs(row.ntice_dt).format("YYYY-MM-DD") : "-";
             return <span>{formatted}</span>;
             },

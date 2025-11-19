@@ -1,8 +1,7 @@
 import { useState } from "react";
-import api from "../../api/axios"; // ← axios 인스턴스 (withCredentials 포함된 기본 설정)
+import api from "../../api/axios"; 
 
 const Main05 = () => {
-  // ✅ 폼 상태 정의
   const [form, setForm] = useState({
     name: "",
     department: "",
@@ -13,24 +12,21 @@ const Main05 = () => {
     content: "",
   });
 
-  // ✅ 입력값 변경 핸들러
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  // ✅ 폼 제출 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 유효성 검사 (선택)
     if (!form.name || !form.tel || !form.email || !form.category || !form.content) {
       alert("필수 항목을 모두 입력해주세요.");
       return;
     }
 
     try {
-      const res = await api.post(`${import.meta.env.VITE_API_BASE_URL}`, form); // ✅ Spring Controller에서 /contact POST 받도록 설정
+      const res = await api.post(`${import.meta.env.VITE_API_BASE_URL}`, form);
       if (res.data.success) {
         alert(res.data.message || "문의가 정상적으로 등록되었습니다.");
         setForm({

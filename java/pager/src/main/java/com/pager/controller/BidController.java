@@ -16,7 +16,7 @@ public class BidController {
     private final BidOpenApiService bidOpenApiService;
 
     /**
-     * ✅ 1. 입찰 목록 페이지 (템플릿용)
+     * 1. 입찰 목록 페이지 (템플릿용)
      * DB에서 조회한 결과를 bid.html에 출력
      */
     @GetMapping("/list")
@@ -28,7 +28,7 @@ public class BidController {
     }
 
     /**
-     * ✅ 2. 입찰 상세 페이지 (템플릿용)
+     * 2. 입찰 상세 페이지 (템플릿용)
      */
     @GetMapping("/view/{bidNtceNo}")
     public String viewBid(@PathVariable String bidNtceNo, Model model) {
@@ -45,7 +45,7 @@ public class BidController {
     }
 
     /**
-     * ✅ 3. AJAX용 입찰 목록 (JSON 반환)
+     * 3. AJAX용 입찰 목록 (JSON 반환)
      * JS fetch()에서 /bid/bid_list 호출 시 DB 데이터 반환
      */
     @GetMapping("/bid_list")
@@ -61,7 +61,7 @@ public class BidController {
     }
 
     /**
-     * ✅ 4. AJAX용 입찰 상세보기 (JSON)
+     * 4. AJAX용 입찰 상세보기 (JSON)
      * 단일 입찰 상세조회
      */
     @GetMapping("/bid_view/{bidNtceNo}")
@@ -81,7 +81,7 @@ public class BidController {
     }
 
     /**
-     * ✅ 5. 관리자 수동 동기화 버튼용 (예: /bid/sync)
+     * 5. 관리자 수동 동기화 버튼용 (예: /bid/sync)
      * API로부터 데이터를 다시 불러와 DB 갱신
      */
     @GetMapping("/sync")

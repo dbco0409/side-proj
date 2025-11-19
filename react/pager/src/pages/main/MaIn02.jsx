@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 const Main02 = () => {
   const sectionRef = useRef(null);
-  const animatedRef = useRef(false); // 중복 실행 방지용
+  const animatedRef = useRef(false);
 
   useEffect(() => {
     const section = sectionRef.current;

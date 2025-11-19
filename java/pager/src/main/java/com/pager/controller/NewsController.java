@@ -20,13 +20,13 @@ import com.pager.service.NewsService;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller  // ✅ RestController → Controller 로 변경
+@Controller
 @RequestMapping("/news")
 @RequiredArgsConstructor
 public class NewsController {
 private final NewsService newsService;
 
-    // ✅ 단일 견적 조회
+    // 단일 견적 조회
     @GetMapping("{id}")
     public String getCompany(@PathVariable Long id, Model model) {
     	News news = newsService.getNews(id);
@@ -38,7 +38,7 @@ private final NewsService newsService;
     public String list(Model model) {
         List<News> news = newsService.getNewsList();
         model.addAttribute("news", news);
-        return "news"; // ✅ quote.html 렌더링
+        return "news"; // quote.html 렌더링
     }
     
     @GetMapping("/newsList")
@@ -50,7 +50,7 @@ private final NewsService newsService;
         result.put("success", true);
         result.put("news", news);
         result.put("total", news.size());
-        return result; // ✅ JSON 형태로 React에 전달
+        return result; 
     }
     
     @GetMapping("/newsView/{id}")

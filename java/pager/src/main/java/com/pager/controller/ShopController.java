@@ -22,14 +22,14 @@ public class ShopController {
 
     private final ShopService shopService;
 
-    // ✅ 1. 상품 등록 페이지 이동
+    // 1. 상품 등록 페이지 이동
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("shop", new Shop());
         return "shop_add"; // → templates/shop_add.html
     }
 
-    // ✅ 2. 상품 등록 처리
+    // 2. 상품 등록 처리
     @PostMapping("/add")
     public String addShop(
             @ModelAttribute Shop shop,
@@ -40,7 +40,7 @@ public class ShopController {
         return "redirect:/shop/list";
     }
 
-    // ✅ 3. 상품 수정 페이지 이동
+    // 3. 상품 수정 페이지 이동
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
         Shop shop = shopService.getShop(id);
@@ -48,7 +48,7 @@ public class ShopController {
         return "shop_edit"; // → templates/shop_edit.html
     }
 
-    // ✅ 4. 상품 수정 처리
+    // 4. 상품 수정 처리
     @PostMapping("/edit/{id}")
     public String editShop(
             @PathVariable Long id,
@@ -61,7 +61,7 @@ public class ShopController {
         return "redirect:/shop/view/" + id;
     }
 
-    // ✅ 5. 상품 상세보기
+    // 5. 상품 상세보기
     @GetMapping("/view/{id}")
     public String viewShop(@PathVariable Long id, Model model) {
         Shop shop = shopService.getShop(id);
@@ -80,7 +80,7 @@ public class ShopController {
         return result; // ✅ JSON 형태로 반환됨
     }
     
-    // ✅ 6. 상품 목록 보기
+    // 7. 상품 목록 보기
     @GetMapping("/list")
     public String listShop(Model model) {
         List<Shop> shops = shopService.getShopList();
@@ -114,7 +114,7 @@ public class ShopController {
         return result;
     }
 
-    // ✅ 필터 검색 (React에서 POST 요청으로 받기)
+    // 필터 검색
     @PostMapping("/shop_list")
     @ResponseBody
     public Map<String, Object> filterShopList(
@@ -150,7 +150,7 @@ public class ShopController {
     }
 
 
-    // ✅ 7. 상품 삭제
+    // 8. 상품 삭제
     @GetMapping("/delete/{id}")
     public String deleteShop(@PathVariable Long id) {
         shopService.deleteShop(id);

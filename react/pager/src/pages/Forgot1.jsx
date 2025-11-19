@@ -1,23 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import "../css/login.css";
 
 const ForgetPassword = () => {
-  const navigate = useNavigate();
   const [form, setForm] = useState({
     mbId: "",
     mbName: "",
   });
   const [loading, setLoading] = useState(false);
 
-  // ✅ 입력값 변경 핸들러
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ 비밀번호 찾기 요청
   const handleSubmit = async (e) => {
     e.preventDefault();
 

@@ -14,10 +14,10 @@ const MemberEdit = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  // ✅ 로그인된 사용자 정보 불러오기 (선택)
+  // 로그인된 사용자 정보 불러오기
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/member-info`, { withCredentials: true }) // ← 서버에서 현재 사용자 정보 반환 (예: session 기반)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/member-info`, { withCredentials: true }) 
       .then((res) => {
         if (res.data.success && res.data.user) {
           setForm((prev) => ({
@@ -30,13 +30,11 @@ const MemberEdit = () => {
       .catch((err) => console.error("회원정보 불러오기 실패:", err));
   }, []);
 
-  // ✅ 입력값 변경 핸들러
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ 회원 정보 수정 요청
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { mbPasswordNew, mbPasswordRe } = form;
@@ -77,7 +75,6 @@ const MemberEdit = () => {
     }
   };
 
-  // ✅ 회원 탈퇴 요청
   const handleDelete = async () => {
     const confirmed = window.confirm(
       "정말로 탈퇴하시겠습니까?\n탈퇴 후에는 계정 복구가 불가능합니다."
